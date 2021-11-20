@@ -11,4 +11,4 @@ COPY --from=go_builder /app/drive .
 # COPY --from=go_builder /app/static/* static/
 # COPY --from=go_builder /app/templates/* templates/
 EXPOSE 8080
-CMD ["./drive"]
+CMD ["./drive", "-api"]
