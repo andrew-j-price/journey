@@ -5,22 +5,23 @@ run: build cli_color cli
 build:
 	CGO_ENABLED=0 go build -o drive
 
-test:
-	go test -v -cover
-
-api:
-	./drive -api
-
 cli:
 	./drive
 
 cli_color:
 	./drive -color
 
+# testing
+test: unit_test
+
+unit_test:
+	go test -v -cover
+
 # NOTE: analyze golangci-lint
 fmt:
 	go fmt
 
+# docker workflow
 docker: docker_stop docker_build docker_run docker_logs
 
 docker_build:
@@ -42,5 +43,22 @@ docker_exec:
 docker_cli_color:
 	docker exec -t journey sh -c "./drive -color"
 
+
+# basic
 curl_hello:
 	curl -m 2 127.0.0.1:8080
+
+
+# prefer docker method over these api methods
+api_start:
+	bash -c "./drive -api &" && \
+	echo ""
+
+api_stop:
+	kill `lsof -ti:8080`
+
+
+# cleanup items
+delete_binaries:
+	rm -f ./drive && \
+	rm -f ./journey

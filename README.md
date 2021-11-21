@@ -1,5 +1,6 @@
 # journey
-This is an my educational `journey` repo to `drive` my learnings on Golang, GitHub Actions, and Argo tools.
+This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and Argo tools.
+* Some practices applied may not be ideal
 
 ## setup
 ```
