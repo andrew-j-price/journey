@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 )
 
 type Color string
@@ -23,13 +22,6 @@ func colorize(color Color, message string) {
 	fmt.Println(string(color), message, string(ColorReset))
 }
 
-func getEnv(key, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
-}
-
 func hello(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
@@ -38,7 +30,7 @@ func hello(w http.ResponseWriter, r *http.Request) {
 
 func apiMain() {
 	listen_address := getEnv("LISTEN_ADDRESS", ":8080")
-	fmt.Printf("Server listening %s ...", listen_address)
+	fmt.Printf("Server listening %s ...\n", listen_address)
 	http.HandleFunc("/", hello)
 	fmt.Println("Server started")
 	log.Fatal(http.ListenAndServe(listen_address, nil))
@@ -58,14 +50,4 @@ func main() {
 		return
 	}
 	fmt.Println("Hello world!")
-}
-
-// Add is our function that sums two integers
-func Add(x, y int) (res int) {
-	return x + y
-}
-
-// Subtract subtracts two integers
-func Subtract(x, y int) (res int) {
-	return x - y
 }
