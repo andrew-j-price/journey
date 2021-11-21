@@ -1,4 +1,5 @@
 # journey
+This is an my educational `journey` repo to `drive` my learnings on Golang, GitHub Actions, and Argo tools.
 
 ## setup
 ```
