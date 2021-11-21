@@ -24,10 +24,10 @@ func colorize(color Color, message string) {
 }
 
 func getEnv(key, fallback string) string {
-    if value, ok := os.LookupEnv(key); ok {
-        return value
-    }
-    return fallback
+	if value, ok := os.LookupEnv(key); ok {
+		return value
+	}
+	return fallback
 }
 
 func hello(w http.ResponseWriter, r *http.Request) {
@@ -58,4 +58,14 @@ func main() {
 		return
 	}
 	fmt.Println("Hello world!")
+}
+
+// Add is our function that sums two integers
+func Add(x, y int) (res int) {
+	return x + y
+}
+
+// Subtract subtracts two integers
+func Subtract(x, y int) (res int) {
+	return x - y
 }

@@ -33,3 +33,12 @@ docker buildx inspect gojourneybuilder --bootstrap
 docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . --push
 
 ```
+
+
+## nexus
+* Nexus - [HTML](https://nexus.linecas.com/service/rest/repository/browse/docker/v2/journey/journey/) or [Manage](https://nexus.linecas.com/#browse/browse:docker)
+```
+docker login images.linecas.com  # developer / ...
+docker pull images.linecas.com/journey/journey:pluralsight
+
+```

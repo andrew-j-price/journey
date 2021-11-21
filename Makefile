@@ -5,6 +5,9 @@ run: build cli_color cli
 build:
 	CGO_ENABLED=0 go build -o drive
 
+test:
+	go test -v -cover
+
 api:
 	./drive -api
 
