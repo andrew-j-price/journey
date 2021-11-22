@@ -14,6 +14,9 @@ go mod init journey
 cd ~/code/tmp
 go get -v golang.org/x/tools/gopls
 
+# NOTE: did not do anything with vscode, to analyze further
+go get -v github.com/haya14busa/goplay/cmd/goplay
+go install github.com/haya14busa/goplay/cmd/goplay@latest
 ```
 
 ## multi-arch
