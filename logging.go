@@ -17,9 +17,12 @@ var (
 func SimpleLogger() {
 	logFile, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
-		log.Fatal(err)
-		// TODO: analyze panic
-		// panic(err)
+		/*
+			panic(err)     // exit code 2 with traceback
+			log.Fatal(err) // exit code 1 with log message
+		*/
+		log.Panic(err) // exit code 2 with log message and traceback
+
 	}
 
 	// NOTABLE OPTIONS: `log.LUTC|`, `log.Lmicroseconds`

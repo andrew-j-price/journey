@@ -9,7 +9,7 @@ cli:
 	./drive
 
 cli_color:
-	./drive -color
+	./drive -debug -color
 
 cli_add:
 	./drive -math add 5 7

@@ -6,17 +6,16 @@ import (
 	"reflect"
 )
 
-// Add is our function that sums two integers
-func Add(x, y int) (res int) {
+// Add sums two integers
+func Add(x, y int) int {
 	return x + y
 }
 
 // Subtract subtracts two integers
-func Subtract(x, y int) (res int) {
+func Subtract(x, y int) int {
 	return x - y
 }
 
-// NOTE: a lot of optimization to do
 func math_main(args []string) {
 	if debugFlow {
 		LoggerDebug.Printf("args: is of type: %v, with value: %v\n", reflect.TypeOf(args), args)
@@ -46,7 +45,7 @@ func math_main(args []string) {
 	int2 := stringToInt(args[2], false)
 	if args[0] == "add" {
 		result := Add(int1, int2)
-		fmt.Printf("Add result: %v \n", result)
+		fmt.Printf("%v result: %v \n", args[0], result)
 	}
 	os.Exit(0)
 }

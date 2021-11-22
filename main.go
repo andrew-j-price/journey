@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"os"
 )
 
@@ -22,7 +21,7 @@ func main() {
 
 	debugFlow = *enableDebug
 	if debugFlow {
-		fmt.Println("Debug mode is set to:", debugFlow)
+		LoggerDebug.Println("Debug mode is set to:", debugFlow)
 	}
 
 	if *runApi {
@@ -41,7 +40,6 @@ func main() {
 	}
 	if *useColor {
 		colorize(ColorYellow, "Hello world!")
-		return
+		os.Exit(0)
 	}
-	fmt.Println("Hello world!")
 }
