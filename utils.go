@@ -14,7 +14,7 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
-func stringInSlice(a string, list []string) bool {
+func isStringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
 			return true

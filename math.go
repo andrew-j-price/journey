@@ -18,8 +18,9 @@ func Subtract(x, y int) (res int) {
 
 // NOTE: a lot of optimization to do
 func math_main(args []string) {
-	LoggerInfo.Printf("args: is of type: %v, with value: %v\n", reflect.TypeOf(args), args)
-
+	if debugFlow {
+		LoggerDebug.Printf("args: is of type: %v, with value: %v\n", reflect.TypeOf(args), args)
+	}
 	if len(args) == 0 {
 		LoggerError.Println("Missing arguments")
 		// flag.PrintDefaults()
@@ -29,13 +30,15 @@ func math_main(args []string) {
 		LoggerError.Printf("Incorrect amount of arguments. args: is of length: %v\n", len(args))
 		os.Exit(1)
 	}
-	for i, v := range args {
-		fmt.Printf("Index: %v, Value: %v\n", i, v)
+	if debugFlow {
+		for i, v := range args {
+			fmt.Printf("Index: %v, Value: %v\n", i, v)
+		}
 	}
 	valid_options := []string{"add", "subtract"}
-	valid := stringInSlice(args[0], valid_options)
-	fmt.Printf("valid is: %v\n", valid)
+	valid := isStringInSlice(args[0], valid_options)
 	if !valid {
+		LoggerDebug.Printf("valid is: %v\n", valid)
 		LoggerError.Printf("Math operations must be one of %v\n", valid_options)
 		os.Exit(1)
 	}
@@ -44,6 +47,6 @@ func math_main(args []string) {
 	if args[0] == "add" {
 		result := Add(int1, int2)
 		fmt.Printf("Add result: %v \n", result)
-		os.Exit(0)
 	}
+	os.Exit(0)
 }
