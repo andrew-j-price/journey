@@ -33,5 +33,6 @@ func stringToInt(theString string, quit bool) int {
 			LoggerFatal.Panic("Conversion failed. Exiting.")
 		}
 	}
+	// NOTE: returns 0 if conversion failed
 	return theInt
 }

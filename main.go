@@ -5,10 +5,10 @@ import (
 	"os"
 )
 
-var DebugFlow bool
+var debugFlow bool
 
 func init() {
-	SimpleLogger()
+	simpleLogger()
 }
 
 func main() {
@@ -19,18 +19,18 @@ func main() {
 	useColor := flag.Bool("color", false, "display colorized output")
 	flag.Parse()
 
-	DebugFlow = *enableDebug
-	if DebugFlow {
-		LoggerDebug.Println("Debug mode is set to:", DebugFlow)
+	debugFlow = *enableDebug
+	if debugFlow {
+		LoggerDebug.Println("Debug mode is set to:", debugFlow)
 	}
 
 	if *runApi {
-		api_v1_main()
+		apiMainV1()
 		os.Exit(3)
 	}
 	if *runMath {
 		args := flag.Args()
-		math_main(args)
+		mathMain(args)
 		os.Exit(0)
 	}
 	if *runRandom {

@@ -14,7 +14,7 @@ var (
 	LoggerFatal *log.Logger
 )
 
-func SimpleLogger() {
+func simpleLogger() {
 	logFile, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		/*

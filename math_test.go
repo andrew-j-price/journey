@@ -2,9 +2,9 @@ package main
 
 import "testing"
 
-func TestAdd(t *testing.T) {
+func testAdd(t *testing.T) {
 
-	got := Add(4, 6)
+	got := add(4, 6)
 	want := 10
 
 	if got != want {
