@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"reflect"
-	"strconv"
 )
 
 // Add is our function that sums two integers
@@ -40,10 +39,8 @@ func math_main(args []string) {
 		LoggerError.Printf("Math operations must be one of %v\n", valid_options)
 		os.Exit(1)
 	}
-	int1, err1 := strconv.Atoi(args[1])
-	fmt.Println(int1, err1, reflect.TypeOf(int1))
-	int2, err2 := strconv.Atoi(args[2])
-	fmt.Println(int2, err2, reflect.TypeOf(int2))
+	int1 := stringToInt(args[1], false)
+	int2 := stringToInt(args[2], false)
 	if args[0] == "add" {
 		result := Add(int1, int2)
 		fmt.Printf("Add result: %v \n", result)

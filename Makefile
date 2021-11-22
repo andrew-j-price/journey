@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-run: build cli_color cli cli_add cli_random
+run: build cli_color cli_add cli_random
 
 build:
 	CGO_ENABLED=0 go build -o drive
@@ -17,15 +17,18 @@ cli_add:
 cli_random:
 	./drive -random
 
+
 # testing
 test: unit_test
 
 unit_test:
 	go test -v -cover
 
+
 # NOTE: analyze golangci-lint
 fmt:
 	go fmt
+
 
 # docker workflow
 docker: docker_stop docker_build docker_run docker_logs
@@ -50,7 +53,7 @@ docker_cli_color:
 	docker exec -t journey sh -c "./drive -color"
 
 
-# basic
+# helper calls
 curl_hello:
 	curl -m 2 127.0.0.1:8080
 
