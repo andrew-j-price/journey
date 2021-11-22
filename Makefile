@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-run: build cli_color cli
+run: build cli_color cli cli_add cli_random
 
 build:
 	CGO_ENABLED=0 go build -o drive
@@ -10,6 +10,12 @@ cli:
 
 cli_color:
 	./drive -color
+
+cli_add:
+	./drive -math add 5 7
+
+cli_random:
+	./drive -random
 
 # testing
 test: unit_test
