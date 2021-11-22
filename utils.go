@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"reflect"
 	"strconv"
@@ -23,15 +22,14 @@ func isStringInSlice(a string, list []string) bool {
 	return false
 }
 
-// Params (string) to convert, (bool) if conversion fails, should exit
+// Params (string) to convert, (bool) if conversion fails, should program exit
 // Returns (int) of string
-func stringToInt(theString string, pass bool) int {
+func stringToInt(theString string, quit bool) int {
 	theInt, err := strconv.Atoi(theString)
 	if err != nil {
-		fmt.Println(theInt, err, reflect.TypeOf(theInt))
-		if !pass {
-			fmt.Println("Conversion failed. Exiting.")
-			os.Exit(1)
+		LoggerError.Println(theInt, err, reflect.TypeOf(theInt))
+		if quit {
+			LoggerFatal.Panic("Conversion failed. Exiting.")
 		}
 	}
 	return theInt

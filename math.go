@@ -41,8 +41,8 @@ func math_main(args []string) {
 		LoggerError.Printf("Math operations must be one of %v\n", valid_options)
 		os.Exit(1)
 	}
-	int1 := stringToInt(args[1], false)
-	int2 := stringToInt(args[2], false)
+	int1 := stringToInt(args[1], true)
+	int2 := stringToInt(args[2], true)
 	if args[0] == "add" {
 		result := Add(int1, int2)
 		fmt.Printf("%v result: %v \n", args[0], result)

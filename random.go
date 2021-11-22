@@ -9,8 +9,9 @@ func randomLogMessages() {
 	LoggerInfo.Println("Informational only")
 	LoggerWarn.Println("Warning message")
 	LoggerError.Println("Error! message")
-	// NOTE: `Fatal` instead of `Println`
+	// NOTE: `Fatal` or `Panic` instead of `Println`
 	// LoggerFatal.Fatal("Quit program")
+	// LoggerFatal.Fatal("Quit program with traceback")
 }
 
 func randomTypesAndKind() {
