@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-var debugFlow bool
+var DebugFlow bool
 
 func init() {
 	SimpleLogger()
@@ -19,9 +19,9 @@ func main() {
 	useColor := flag.Bool("color", false, "display colorized output")
 	flag.Parse()
 
-	debugFlow = *enableDebug
-	if debugFlow {
-		LoggerDebug.Println("Debug mode is set to:", debugFlow)
+	DebugFlow = *enableDebug
+	if DebugFlow {
+		LoggerDebug.Println("Debug mode is set to:", DebugFlow)
 	}
 
 	if *runApi {

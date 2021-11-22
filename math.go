@@ -17,7 +17,7 @@ func Subtract(x, y int) int {
 }
 
 func math_main(args []string) {
-	if debugFlow {
+	if DebugFlow {
 		LoggerDebug.Printf("args: is of type: %v, with value: %v\n", reflect.TypeOf(args), args)
 	}
 	if len(args) == 0 {
@@ -29,7 +29,7 @@ func math_main(args []string) {
 		LoggerError.Printf("Incorrect amount of arguments. args: is of length: %v\n", len(args))
 		os.Exit(1)
 	}
-	if debugFlow {
+	if DebugFlow {
 		for i, v := range args {
 			fmt.Printf("Index: %v, Value: %v\n", i, v)
 		}
