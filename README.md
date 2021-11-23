@@ -2,31 +2,67 @@
 This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and Argo tools.
 * Some practices applied may not be ideal
 
-## setup
+
+## go install and clean
 ```bash
-cd ~\code\journey
-go mod init journey
+# clean - commented out for manual protection
+# sudo rm -rf /usr/local/go/
+# sudo rm -rf ~/go/
+mkdir -p ~/go
 
-sudo ln -s ~/code/journey/drive /usr/local/bin/drive
-
+# install - https://go.dev/doc/install
+cd ~/downloads
+wget https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
+go version
 ```
 
 ## vscode
+actions:
+* ctrl-shift-p -> Go: Install/Update Tools -> Select all -> install
+* output `ls -la ~/go/bin/`
+  ```
+  Tools environment: GOPATH=/home/andrew/go
+  Installing 10 tools at /home/andrew/go/bin in module mode.
+    gopkgs
+    go-outline
+    gotests
+    gomodifytags
+    impl
+    goplay
+    dlv
+    dlv-dap
+    staticcheck
+    gopls
+  ...
+  ```
+
 settings.json
 ```json
 "gopls": {
     "experimentalWorkspaceModule": true,
 }
 ```
-commands
-```bash
-cd ~/code/tmp
-go get -v golang.org/x/tools/gopls
-go install golang.org/x/tools/gopls@latest
 
-# NOTE: did not do anything with vscode, to analyze further
-go get -v github.com/haya14busa/goplay/cmd/goplay
+## package management
+```bash
+# Global
+go install package@ver
+go install package@new_ver
+
+# Module
+go get package@ver
+go get package@new_ver
+go get package@none
+go clean package
+go clean -r package
+
+# Samples
+go install golang.org/x/tools/gopls@latest
+go get golang.org/x/tools/gopls
+
 go install github.com/haya14busa/goplay/cmd/goplay@latest
+go get github.com/haya14busa/goplay/cmd/goplay
 ```
 
 ## multi-arch
