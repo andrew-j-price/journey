@@ -45,9 +45,13 @@ func mathMain(args []string) {
 	validateArgs(args)
 	int1 := stringToInt(args[1], true)
 	int2 := stringToInt(args[2], true)
+	var result int
 	if args[0] == "add" {
-		result := add(int1, int2)
-		fmt.Printf("%v result: %v \n", args[0], result)
+		result = add(int1, int2)
 	}
+	if args[0] == "subtract" {
+		result = subtract(int1, int2)
+	}
+	fmt.Printf("%v result: %v \n", args[0], result)
 	os.Exit(0)
 }

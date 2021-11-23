@@ -4,11 +4,11 @@ ADD . /app/
 # RUN go mod tidy
 RUN CGO_ENABLED=0 go build -o drive
 
-FROM alpine:3.15
+# FROM alpine:3.14.3
+# RUN apk update && apk add --no-cache curl
+FROM scratch
 WORKDIR /app
-RUN apk add --no-cache bash
 COPY --from=go_builder /app/drive .
 # COPY --from=go_builder /app/static/* static/
 # COPY --from=go_builder /app/templates/* templates/
-EXPOSE 8080
 CMD ["./drive", "-api"]

@@ -31,7 +31,21 @@ fmt:
 
 
 # docker workflow
-docker: docker_stop docker_build docker_run docker_logs
+docker: docker_build docker_compose_build docker_compose_logs
+down: docker_stop docker_compose_down
+
+docker_compose_build:
+	docker-compose build && \
+	docker-compose --profile core up -d
+
+docker_compose_logs:
+	docker-compose logs -f drive
+
+docker_compose_exec:
+	docker-compose exec drive sh
+
+docker_compose_down:
+	docker-compose down --remove-orphans
 
 docker_build:
 	docker build -t journey .
@@ -68,6 +82,11 @@ api_stop:
 
 
 # cleanup items
+cleanup: delete_binaries delete_logs
+
 delete_binaries:
 	rm -f ./drive && \
 	rm -f ./journey
+
+delete_logs:
+	rm -f ./log.txt
