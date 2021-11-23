@@ -44,6 +44,9 @@ docker_compose_logs:
 docker_compose_exec:
 	docker-compose exec drive sh
 
+docker_compose_exec_scratch:
+	docker-compose exec drive ./drive -debug -color
+
 docker_compose_down:
 	docker-compose down --remove-orphans
 
