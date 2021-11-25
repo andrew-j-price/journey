@@ -8,6 +8,8 @@ package main
 import (
 	"flag"
 	"os"
+
+	"github.com/andrew-j-price/journey/random"
 )
 
 var debugFlow bool
@@ -39,10 +41,10 @@ func main() {
 		os.Exit(0)
 	}
 	if *runRandom {
-		randomGreetingMain()
-		// randomLoopMain()
-		// randomTypesAndKind()
-		// randomLogMessages()
+		random.RandomGreetingMain()
+		random.RandomLoopMain()
+		random.RandomTypesAndKind()
+		random.RandomLogMessages()
 		os.Exit(0)
 	}
 	if *useColor {
