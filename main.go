@@ -44,9 +44,9 @@ func main() {
 	}
 	if *runRandom {
 		random.RandomGreetingMain()
-		random.RandomLoopMain()
-		random.RandomTypesAndKind()
-		random.RandomLogMessages()
+		// random.RandomLoopMain()
+		// random.RandomTypesAndKind()
+		// random.RandomLogMessages()
 		os.Exit(0)
 	}
 	if *useColor {
