@@ -4,6 +4,8 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+
+	"github.com/andrew-j-price/journey/logger"
 )
 
 func getEnv(key, fallback string) string {
@@ -28,10 +30,10 @@ func isStringInSlice(a string, list []string) bool {
 func StringToInt(theString string, quit bool) int {
 	theInt, err := strconv.Atoi(theString)
 	if err != nil {
-		LoggerError.Println(err)
-		LoggerDebug.Printf("During processing of: %v which returned: %v with type: %v", theString, theInt, reflect.TypeOf(theInt))
+		logger.Error.Println(err)
+		logger.Debug.Printf("During processing of: %v which returned: %v with type: %v", theString, theInt, reflect.TypeOf(theInt))
 		if quit {
-			LoggerFatal.Panic("Conversion failed. Exiting.")
+			logger.Fatal.Panic("Conversion failed. Exiting.")
 		}
 	}
 	// NOTE: returns 0 if conversion failed
