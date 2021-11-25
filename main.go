@@ -1,3 +1,8 @@
+/*
+Package: journey
+
+This is an my educational `journey` repo to `drive` my learnings on Golang
+*/
 package main
 
 import (
@@ -34,6 +39,8 @@ func main() {
 		os.Exit(0)
 	}
 	if *runRandom {
+		randomGreetingMain()
+		// randomLoopMain()
 		// randomTypesAndKind()
 		// randomLogMessages()
 		os.Exit(0)

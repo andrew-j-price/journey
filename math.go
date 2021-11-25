@@ -43,8 +43,8 @@ func validateArgs(args []string) {
 
 func mathMain(args []string) {
 	validateArgs(args)
-	int1 := stringToInt(args[1], true)
-	int2 := stringToInt(args[2], true)
+	int1 := StringToInt(args[1], true)
+	int2 := StringToInt(args[2], true)
 	var result int
 	if args[0] == "add" {
 		result = add(int1, int2)

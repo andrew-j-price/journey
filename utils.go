@@ -22,9 +22,10 @@ func isStringInSlice(a string, list []string) bool {
 	return false
 }
 
+// Takes a string and returns an int.
 // Params (string) to convert, (bool) if conversion fails, should program exit
 // Returns (int) of string
-func stringToInt(theString string, quit bool) int {
+func StringToInt(theString string, quit bool) int {
 	theInt, err := strconv.Atoi(theString)
 	if err != nil {
 		LoggerError.Println(err)
