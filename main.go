@@ -43,10 +43,11 @@ func main() {
 		os.Exit(0)
 	}
 	if *runRandom {
-		random.RandomGreetingMain()
+		// random.RandomGreetingMain()
 		// random.RandomLoopMain()
 		// random.RandomTypesAndKind()
 		// random.RandomLogMessages()
+		random.FakeDataMain()
 		os.Exit(0)
 	}
 	if *useColor {
