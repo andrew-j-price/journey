@@ -19,7 +19,7 @@ type employee struct {
 
 func FakeDataMain(enableDebug bool) {
 	debugFlow = enableDebug
-	randomName()
+	// randomName()
 	// randomNumberInRange(1, 9)
 	/*
 		result := staticEmployee()
