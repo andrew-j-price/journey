@@ -38,9 +38,13 @@ go_doc_module_stringtoint:
 go_doc_fuction_stringtoint:
 	go doc StringToInt
 
-go_doc_fmt_println:
-	go doc fmt.Println 
+# https://pkg.go.dev/fmt#Printf
+go_doc_fmt_printf:
+	go doc fmt.Printf
 
+# https://pkg.go.dev/net/http#Handler
+go_doc_net_http_handler:
+	go doc net/http.handler
 
 # run without building
 go_run_dir:
