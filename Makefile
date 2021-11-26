@@ -25,6 +25,35 @@ unit_test:
 	go test -v -cover
 
 
+# documentation (only pascal case items are documented)
+go_doc_all:
+	go doc -all
+
+go_doc_module:
+	go doc github.com/andrew-j-price/journey
+
+go_doc_module_stringtoint:
+	go doc github.com/andrew-j-price/journey.StringToInt
+
+go_doc_fuction_stringtoint:
+	go doc StringToInt
+
+# https://pkg.go.dev/fmt#Printf
+go_doc_fmt_printf:
+	go doc fmt.Printf
+
+# https://pkg.go.dev/net/http#Handler
+go_doc_net_http_handler:
+	go doc net/http.handler
+
+# run without building
+go_run_dir:
+	go run . -debug
+
+go_run_module:
+	go run github.com/andrew-j-price/journey -debug
+
+
 # NOTE: analyze golangci-lint
 fmt:
 	go fmt

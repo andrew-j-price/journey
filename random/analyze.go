@@ -1,20 +1,23 @@
-package main
+package random
 
 import (
 	"fmt"
 	"reflect"
+
+	"github.com/andrew-j-price/journey/logger"
 )
 
-func randomLogMessages() {
-	LoggerInfo.Println("Informational only")
-	LoggerWarn.Println("Warning message")
-	LoggerError.Println("Error! message")
+func RandomLogMessages() {
+	fmt.Println("need to move logging into its own package")
+	logger.Info.Println("Informational only")
+	logger.Warn.Println("Warning message")
+	logger.Error.Println("Error! message")
 	// NOTE: `Fatal` or `Panic` instead of `Println`
-	// LoggerFatal.Fatal("Quit program")
-	// LoggerFatal.Fatal("Quit program with traceback")
+	// logger.Fatal.Fatal("Quit program")
+	// logger.Fatal.Panic("Quit program with traceback")
 }
 
-func randomTypesAndKind() {
+func RandomTypesAndKind() {
 	b := true
 	s := ""
 	n := 1
