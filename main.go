@@ -1,14 +1,23 @@
+/*
+Package: journey
+
+This is an my educational `journey` repo to `drive` my learnings on Golang
+*/
 package main
 
 import (
 	"flag"
 	"os"
+
+	"github.com/andrew-j-price/journey/logger"
+	"github.com/andrew-j-price/journey/random"
 )
 
 var debugFlow bool
 
 func init() {
-	simpleLogger()
+	// SimpleLogger()  // references "keep" logging.go file
+	logger.PackageLogger()
 }
 
 func main() {
@@ -21,7 +30,7 @@ func main() {
 
 	debugFlow = *enableDebug
 	if debugFlow {
-		LoggerDebug.Println("Debug mode is set to:", debugFlow)
+		logger.Debug.Println("Debug mode is set to:", debugFlow)
 	}
 
 	if *runApi {
@@ -34,8 +43,12 @@ func main() {
 		os.Exit(0)
 	}
 	if *runRandom {
-		// randomTypesAndKind()
-		// randomLogMessages()
+		// random.RandomGreetingMain()
+		// random.RandomLoopMain()
+		// random.RandomTypesAndKind()
+		// random.RandomLogMessages()
+		random.FakeDataMain(debugFlow)
+		// random.JsonDataMain()
 		os.Exit(0)
 	}
 	if *useColor {
