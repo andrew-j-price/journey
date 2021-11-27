@@ -65,6 +65,16 @@ go install github.com/haya14busa/goplay/cmd/goplay@latest
 go get github.com/haya14busa/goplay/cmd/goplay
 ```
 
+## git workflow
+```bash
+# squash commits on feature branch
+git checkout feature_branch
+git reset --soft develop
+
+# standard vscode workflow for add, commit, pull-push
+# on GitHub Pull Request set "Squash and merge" when accepting
+```
+
 ## multi-arch
 * DockerHub - [Consume](https://hub.docker.com/r/andrewprice/journey/tags) or [Manage](https://hub.docker.com/repository/docker/andrewprice/journey/tags)
 * NOTE: if not pushing, build result will only remain in the build cache
