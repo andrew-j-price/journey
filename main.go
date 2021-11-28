@@ -49,6 +49,7 @@ func main() {
 		// random.RandomLogMessages()
 		random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
+		random.AttestMain()
 		os.Exit(0)
 	}
 	if *useColor {

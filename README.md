@@ -69,10 +69,13 @@ go get github.com/haya14busa/goplay/cmd/goplay
 ```bash
 # squash commits on feature branch
 git checkout feature_branch
-git reset --soft develop
+git reset --soft main
 
 # standard vscode workflow for add, commit, pull-push
 # on GitHub Pull Request set "Squash and merge" when accepting
+
+# tag
+git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```
 
 ## multi-arch
