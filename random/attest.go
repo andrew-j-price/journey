@@ -93,7 +93,8 @@ func getAttestTodos() {
 	fmt.Printf("There are: %v todos: with %v completed and %v open.\n", len(respObject), completedTodos, len(respObject)-completedTodos)
 }
 
-func postAttestTodoJson(task_msg string) {
+// NOTE: Preferring this method, as I find it simpler and more straightforward.
+func postAttestTodoByteSlice(task_msg string) {
 	toUrl := "http://attest.linecas.com/todos"
 	fmt.Println("Sending POST request to:", toUrl)
 
@@ -125,9 +126,8 @@ func postAttestTodoStruct(task_msg string) {
 	type jsonDataStruct struct {
 		Task string `json:"task"`
 	}
-
-	jsonBody := &jsonDataStruct{Task: task_msg}
-	jsonStr, err := json.Marshal(jsonBody)
+	jsonPayload := &jsonDataStruct{Task: task_msg}
+	jsonStr, err := json.Marshal(jsonPayload)
 	if err != nil {
 		log.Fatalf("could not marshal JSON: %s", err)
 	}
@@ -155,6 +155,6 @@ func AttestMain() {
 	getAttestDogs()
 	getAttestTodos()
 	task_msg := faker.Hacker().SaySomethingSmart()
-	postAttestTodoJson(task_msg)
+	postAttestTodoByteSlice(task_msg)
 	postAttestTodoStruct(task_msg)
 }
