@@ -1,11 +1,14 @@
 package random
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
+
+	"syreclabs.com/go/faker"
 )
 
 func getUrl(url string) *http.Response {
@@ -90,9 +93,68 @@ func getAttestTodos() {
 	fmt.Printf("There are: %v todos: with %v completed and %v open.\n", len(respObject), completedTodos, len(respObject)-completedTodos)
 }
 
+func postAttestTodoJson(task_msg string) {
+	toUrl := "http://attest.linecas.com/todos"
+	fmt.Println("Sending POST request to:", toUrl)
+
+	var jsonData = []byte(fmt.Sprintf(`{
+		"task": "%v"
+	}`, task_msg))
+
+	req, _ := http.NewRequest("POST", toUrl, bytes.NewBuffer(jsonData))
+	req.Header.Set("X-Custom-Header", "myvalue")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Response Status:", resp.Status)
+	fmt.Println("Response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("Response Body:", string(body))
+}
+
+func postAttestTodoStruct(task_msg string) {
+	toUrl := "http://attest.linecas.com/todos"
+	fmt.Println("Sending POST request to:", toUrl)
+
+	type jsonDataStruct struct {
+		Task string `json:"task"`
+	}
+
+	jsonBody := &jsonDataStruct{Task: task_msg}
+	jsonStr, err := json.Marshal(jsonBody)
+	if err != nil {
+		log.Fatalf("could not marshal JSON: %s", err)
+	}
+
+	req, _ := http.NewRequest("POST", toUrl, bytes.NewBuffer(jsonStr))
+	req.Header.Set("X-Custom-Header", "myvalue")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Response Status:", resp.Status)
+	fmt.Println("Response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("Response Body:", string(body))
+}
+
 func AttestMain() {
 	fmt.Println("# Collecting from attest")
 	getAttestDefault()
 	getAttestDogs()
 	getAttestTodos()
+	task_msg := faker.Hacker().SaySomethingSmart()
+	postAttestTodoJson(task_msg)
+	postAttestTodoStruct(task_msg)
 }
