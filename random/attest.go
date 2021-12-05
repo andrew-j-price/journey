@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"reflect"
 
 	"syreclabs.com/go/faker"
 )
@@ -31,6 +32,7 @@ func getRespData(resp *http.Response) []byte {
 }
 
 func getAttestDefault() {
+	fmt.Println("# FUNC: getAttestDefault")
 	// define the data structure
 	type attestDefault struct {
 		Date          string `json:"date"`
@@ -52,7 +54,25 @@ func getAttestDefault() {
 	fmt.Printf("URI called: %v at: %v\n", respObject.URI, respObject.Date)
 }
 
+func getAttestDefaultWithoutStructs() {
+	fmt.Println("# FUNC: getAttestDefaultWithoutStructs")
+	// get data
+	resp := getUrl("http://attest.linecas.com/default")
+	respData := getRespData(resp)
+	// structure data
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(respData), &data)
+	if err != nil {
+		panic(err)
+	}
+	// do something with data
+	fmt.Printf("data: is of type: %v, with value: %v\n", reflect.TypeOf(data), data)
+	// value would be <nil> if desired element did not exist
+	fmt.Printf("host_name is: %v, uuid is: %v", data["host_name"], data["uuid"])
+}
+
 func getAttestDogs() {
+	fmt.Println("# FUNC: getAttestDogs")
 	// define the data structure
 	type attestDogs []struct {
 		ID   string `json:"id"`
@@ -70,6 +90,7 @@ func getAttestDogs() {
 }
 
 func getAttestTodos() {
+	fmt.Println("# FUNC: getAttestTodos")
 	// define the data structure
 	type attestTodos []struct {
 		UID    string `json:"uid"`
@@ -95,6 +116,7 @@ func getAttestTodos() {
 
 // NOTE: Preferring this method, as I find it simpler and more straightforward.
 func postAttestTodoByteSlice(task_msg string) {
+	fmt.Println("# FUNC: postAttestTodoByteSlice")
 	toUrl := "http://attest.linecas.com/todos"
 	fmt.Println("Sending POST request to:", toUrl)
 
@@ -120,6 +142,7 @@ func postAttestTodoByteSlice(task_msg string) {
 }
 
 func postAttestTodoStruct(task_msg string) {
+	fmt.Println("# FUNC: postAttestTodoStruct")
 	toUrl := "http://attest.linecas.com/todos"
 	fmt.Println("Sending POST request to:", toUrl)
 
@@ -150,11 +173,18 @@ func postAttestTodoStruct(task_msg string) {
 }
 
 func AttestMain() {
-	fmt.Println("# Collecting from attest")
-	getAttestDefault()
-	getAttestDogs()
-	getAttestTodos()
-	task_msg := faker.Hacker().SaySomethingSmart()
-	postAttestTodoByteSlice(task_msg)
-	postAttestTodoStruct(task_msg)
+	fmt.Println("# FUNC: AttestMain")
+	if false {
+		// This will obviously not run
+		// but prevents fmt from removing imports when commenting out functions
+		getAttestDefault()
+		getAttestDefaultWithoutStructs()
+		getAttestDogs()
+		getAttestTodos()
+		task_msg := faker.Hacker().SaySomethingSmart()
+		postAttestTodoByteSlice(task_msg)
+		postAttestTodoStruct(task_msg)
+	}
+	// actual items to run are here
+	getAttestDefaultWithoutStructs()
 }

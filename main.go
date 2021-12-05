@@ -21,7 +21,7 @@ func init() {
 }
 
 func main() {
-	enableDebug := flag.Bool("debug", false, "run debug commands")
+	enableDebug := flag.Bool("debug", false, "include debug output")
 	runApi := flag.Bool("api", false, "start api")
 	runMath := flag.Bool("math", false, "drive -math add 5 7")
 	runRandom := flag.Bool("random", false, "just testing things")
