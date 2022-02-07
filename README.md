@@ -44,6 +44,25 @@ settings.json
 }
 ```
 
+launch.json for debugger
+```json
+        {
+            "name": "go:journey",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "console": "integratedTerminal",
+            "program": "${workspaceFolder}/journey",
+            "args": [
+                "-debug", "-math", "add", "5", "7"
+            ],
+            "env": {
+                "DEBUGGER": "True"
+            },
+            "envFile": "${workspaceFolder}/.vscode/.env"
+        },
+```
+
 ## package management
 ```bash
 # Global
