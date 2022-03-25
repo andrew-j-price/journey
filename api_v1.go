@@ -2,82 +2,78 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 
 	"github.com/andrew-j-price/journey/logger"
+	utility "github.com/andrew-j-price/journey/utils"
 )
 
-type event struct {
-	ID          string `json:"ID"`
-	Title       string `json:"Title"`
-	Description string `json:"Description"`
-}
-
-type allEvents []event
-
-var events = allEvents{
-	{
-		ID:          "1",
-		Title:       "Introduction to Golang",
-		Description: "Come join us for a chance to learn how golang works and get to eventually try it out",
-	},
-}
-
-func homeLink(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome home!")
-}
-
-func createEvent(w http.ResponseWriter, r *http.Request) {
-	var newEvent event
-	reqBody, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		fmt.Fprintf(w, "Kindly enter data with the event title and description only in order to update")
-	}
-
-	json.Unmarshal(reqBody, &newEvent)
-	events = append(events, newEvent)
-	w.WriteHeader(http.StatusCreated)
-
-	json.NewEncoder(w).Encode(newEvent)
-}
-
-func getOneEvent(w http.ResponseWriter, r *http.Request) {
-	// eventID := mux.Vars(r)["id"]
-	eventID := "0"
-
-	for _, singleEvent := range events {
-		if singleEvent.ID == eventID {
-			json.NewEncoder(w).Encode(singleEvent)
-		}
+func handlerRoot(w http.ResponseWriter, r *http.Request) {
+	// NOTE: the "else if" is useless here
+	if r.URL.Path == "/" {
+		handlerDefault(w, r)
+	} else if r.URL.Path == "/default" {
+		handlerDefault(w, r)
+	} else {
+		handler404(w, r)
 	}
 }
 
-func hello(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	w.Header().Set("Content-Type", "application/json")
-	w.Write([]byte(`{"message":"hello world!"}`))
-	logger.Info.Printf("hello route received %v call and sent response %v\n", http.MethodGet, http.StatusOK)
+func handler404(w http.ResponseWriter, r *http.Request) {
+	logger.Info.Printf("%v received %v call", r.URL.Path, http.MethodGet)
+	message := map[string]string{"404": r.URL.Path}
+	jsonResponse(w, 404, message)
 }
 
-func ping(w http.ResponseWriter, r *http.Request) {
+func handlerDefault(w http.ResponseWriter, r *http.Request) {
+	logger.Info.Printf("%v received %v call", r.URL.Path, http.MethodGet)
+	message := map[string]interface{}{
+		"host_name":      "socket.gethostname()",
+		"host_ip":        "socket.gethostbyname(socket.gethostname())",
+		"server_address": "request.host",
+		"uri":            r.URL.Path,
+		"uuid":           "uuid4()",
+		"date":           utility.TimeNow(),
+		"remote_agent":   r.UserAgent(),
+		"remote_ip":      r.RemoteAddr,
+	}
+	jsonResponse(w, 200, message)
+}
+
+func handlerDog(w http.ResponseWriter, r *http.Request) {
+	logger.Info.Printf("%v received %v call from %v using %v", r.URL.Path, http.MethodGet, r.RemoteAddr, r.UserAgent())
+	hobbies := []string{"sleeping", "eating", "playing"}
+	message := map[string]interface{}{"jack": 15, "murphy": 7, "are": "good", "hobbies": hobbies}
+	jsonResponse(w, 200, message)
+}
+
+// not using jsonResponse, but writing byte style.  Do this for example
+func handlerPing(w http.ResponseWriter, r *http.Request) {
+	logger.Info.Printf("%v received %v call", r.URL.Path, http.MethodGet)
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write([]byte(`{"ping":"pong"}`))
-	logger.Info.Printf("hello route received %v call and sent response %v\n", http.MethodGet, http.StatusOK)
+}
+
+func jsonResponse(w http.ResponseWriter, httpStatusCode int, httpResponse interface{}) {
+	message, err := json.Marshal(httpResponse)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.WriteHeader(httpStatusCode)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(message)
 }
 
 func apiMainV1() {
 	listen_address := getEnv("LISTEN_ADDRESS", ":8080")
 	logger.Info.Printf("Startup binding to %s\n", listen_address)
-	http.HandleFunc("/", hello)
-	http.HandleFunc("/home", homeLink)
-	http.HandleFunc("/ping", ping)
-	// http.HandleFunc("/event", createEvent).Methods("POST")
-	// http.HandleFunc("/events/{id}", getOneEvent).Methods("GET")
-	// http.HandleFunc("/events", getAllEvents).Methods("GET")
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", handlerRoot)
+	mux.HandleFunc("/dogs", handlerDog)
+	mux.HandleFunc("/ping", handlerPing)
 	logger.Info.Printf("Web server started")
-	log.Fatal(http.ListenAndServe(listen_address, nil))
+	log.Fatal(http.ListenAndServe(listen_address, mux))
 }

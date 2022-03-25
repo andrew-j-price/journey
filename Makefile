@@ -105,13 +105,17 @@ curl_hello:
 
 
 # prefer docker method over these api methods
+api: api_stop_fuser build api_start
+
 api_start:
 	bash -c "./drive -api &" && \
 	echo ""
 
-api_stop:
+api_stop_lsof:
 	kill `lsof -ti:8080`
 
+api_stop_fuser:
+	result=`fuser -k -n tcp 8080 || true`
 
 # cleanup items
 cleanup: delete_binaries delete_logs

@@ -16,7 +16,7 @@ import (
 var debugFlow bool
 
 func init() {
-	// SimpleLogger()  // references "keep" logging.go file
+	// SimpleLogger()  // references "./keep/logging.go.keep" file
 	logger.PackageLogger()
 }
 
