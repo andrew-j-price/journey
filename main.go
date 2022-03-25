@@ -34,7 +34,7 @@ func main() {
 	}
 
 	if *runApi {
-		apiMainV1()
+		apiMain()
 		os.Exit(3)
 	}
 	if *runMath {

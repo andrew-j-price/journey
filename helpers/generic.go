@@ -1,21 +1,22 @@
-package main
+package helpers
 
 import (
 	"os"
 	"reflect"
 	"strconv"
+	"time"
 
 	"github.com/andrew-j-price/journey/logger"
 )
 
-func getEnv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
 	}
 	return fallback
 }
 
-func isStringInSlice(a string, list []string) bool {
+func IsStringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
 			return true
@@ -38,4 +39,8 @@ func StringToInt(theString string, quit bool) int {
 	}
 	// NOTE: returns 0 if conversion failed
 	return theInt
+}
+
+func TimeNow() string {
+	return time.Now().Format(time.RFC3339)
 }

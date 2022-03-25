@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	helper "github.com/andrew-j-price/journey/helpers"
 	"github.com/andrew-j-price/journey/logger"
-	utility "github.com/andrew-j-price/journey/utils"
 )
 
 func handlerRoot(w http.ResponseWriter, r *http.Request) {
@@ -34,7 +34,7 @@ func handlerDefault(w http.ResponseWriter, r *http.Request) {
 		"server_address": "request.host",
 		"uri":            r.URL.Path,
 		"uuid":           "uuid4()",
-		"date":           utility.TimeNow(),
+		"date":           helper.TimeNow(),
 		"remote_agent":   r.UserAgent(),
 		"remote_ip":      r.RemoteAddr,
 	}
@@ -67,8 +67,8 @@ func jsonResponse(w http.ResponseWriter, httpStatusCode int, httpResponse interf
 	w.Write(message)
 }
 
-func apiMainV1() {
-	listen_address := getEnv("LISTEN_ADDRESS", ":8080")
+func apiMain() {
+	listen_address := helper.GetEnv("LISTEN_ADDRESS", ":8080")
 	logger.Info.Printf("Startup binding to %s\n", listen_address)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handlerRoot)

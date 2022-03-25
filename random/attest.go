@@ -114,7 +114,6 @@ func getAttestTodos() {
 	fmt.Printf("There are: %v todos: with %v completed and %v open.\n", len(respObject), completedTodos, len(respObject)-completedTodos)
 }
 
-// NOTE: Preferring this method, as I find it simpler and more straightforward.
 func postAttestTodoByteSlice(task_msg string) {
 	fmt.Println("# FUNC: postAttestTodoByteSlice")
 	toUrl := "http://attest.linecas.com/todos"
@@ -123,6 +122,37 @@ func postAttestTodoByteSlice(task_msg string) {
 	var jsonData = []byte(fmt.Sprintf(`{
 		"task": "%v"
 	}`, task_msg))
+
+	req, _ := http.NewRequest("POST", toUrl, bytes.NewBuffer(jsonData))
+	req.Header.Set("X-Custom-Header", "myvalue")
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		panic(err)
+	}
+	defer resp.Body.Close()
+
+	fmt.Println("Response Status:", resp.Status)
+	fmt.Println("Response Headers:", resp.Header)
+	body, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println("Response Body:", string(body))
+}
+
+// NOTE: Preferring this method, as I find it simpler and more straightforward.
+func postAttestTodoMapInterface(task_msg string) {
+	fmt.Println("# FUNC: postAttestTodoMapInterface")
+	toUrl := "http://attest.linecas.com/todos"
+	fmt.Println("Sending POST request to:", toUrl)
+
+	data := map[string]interface{}{
+		"task": task_msg,
+	}
+	jsonData, err := json.Marshal(data)
+	if err != nil {
+		panic(err)
+	}
 
 	req, _ := http.NewRequest("POST", toUrl, bytes.NewBuffer(jsonData))
 	req.Header.Set("X-Custom-Header", "myvalue")
@@ -183,8 +213,11 @@ func AttestMain() {
 		getAttestTodos()
 		task_msg := faker.Hacker().SaySomethingSmart()
 		postAttestTodoByteSlice(task_msg)
+		postAttestTodoMapInterface(task_msg)
 		postAttestTodoStruct(task_msg)
 	}
 	// actual items to run are here
 	getAttestDefaultWithoutStructs()
+	task_msg := faker.Hacker().SaySomethingSmart()
+	postAttestTodoMapInterface(task_msg)
 }
