@@ -27,8 +27,8 @@ func PackageLogger() {
 
 	// NOTABLE OPTIONS: `log.LUTC|`, `log.Lmicroseconds`
 	Debug = log.New(logFile, "DEBUG: ", log.Ldate|log.Ltime|log.Lshortfile)
-	Info = log.New(logFile, "INFO:  ", log.Ldate|log.Ltime|log.Lshortfile)
-	Warn = log.New(logFile, "WARN:  ", log.Ldate|log.Ltime|log.Lshortfile)
+	Info = log.New(logFile, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+	Warn = log.New(logFile, "WARN: ", log.Ldate|log.Ltime|log.Lshortfile)
 	Error = log.New(logFile, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
 	Fatal = log.New(logFile, "FATAL: ", log.Ldate|log.Ltime|log.Lshortfile)
 

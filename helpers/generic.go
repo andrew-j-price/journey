@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"math/rand"
 	"os"
 	"reflect"
 	"strconv"
@@ -23,6 +24,13 @@ func IsStringInSlice(a string, list []string) bool {
 		}
 	}
 	return false
+}
+
+func RandomNumberInRange(minNum int, maxNum int) int {
+	rand.Seed(time.Now().UnixNano())
+	num := rand.Intn(maxNum-minNum) + minNum
+	// fmt.Printf("Random number: %v\n", num)
+	return num
 }
 
 // Takes a string and returns an int.
