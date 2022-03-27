@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"reflect"
 
+	"github.com/andrew-j-price/journey/helpers"
 	"syreclabs.com/go/faker"
 )
 
@@ -202,6 +203,19 @@ func postAttestTodoStruct(task_msg string) {
 	fmt.Println("Response Body:", string(body))
 }
 
+func AttestWithHelpers() {
+	// GET
+	fmt.Println("GETTING!!!!!")
+	data := helpers.RestGetUrl("http://attest.linecas.com/default")
+	fmt.Println("GOT!!!!!")
+	fmt.Printf("host_name is: %v, uuid is: %v\n", data["host_name"], data["uuid"])
+	// POST
+	fmt.Println("POSTING!!!!!")
+	task_msg := faker.Hacker().SaySomethingSmart()
+	task_payload := map[string]interface{}{"task": task_msg}
+	helpers.RestPostUrl("http://attest.linecas.com/todos", task_payload)
+}
+
 func AttestMain() {
 	fmt.Println("# FUNC: AttestMain")
 	if false {
@@ -217,7 +231,8 @@ func AttestMain() {
 		postAttestTodoStruct(task_msg)
 	}
 	// actual items to run are here
-	getAttestDefaultWithoutStructs()
-	task_msg := faker.Hacker().SaySomethingSmart()
-	postAttestTodoMapInterface(task_msg)
+	// getAttestDefaultWithoutStructs()
+	// task_msg := faker.Hacker().SaySomethingSmart()
+	// postAttestTodoMapInterface(task_msg)
+	AttestWithHelpers()
 }
