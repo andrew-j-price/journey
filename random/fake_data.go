@@ -16,6 +16,7 @@ type employee struct {
 	ID        int
 	FirstName string
 	LastName  string
+	Active    bool
 }
 
 func FakeDataMain(enableDebug bool) {
@@ -54,7 +55,7 @@ func EmployeeSliceOfStructs() []*employee {
 }
 
 func staticEmployee() *employee {
-	newEmployee := employee{123, "John", "Smith"}
+	newEmployee := employee{123, "John", "Smith", true}
 
 	fmt.Println("# staticEmployee")
 	fmt.Printf("The type is %v\n", reflect.TypeOf(newEmployee))
@@ -68,12 +69,13 @@ func employeeStruct(static bool) *employee {
 	var newEmployee employee
 
 	if static {
-		newEmployee = employee{456, "Jane", "Doe"}
+		newEmployee = employee{456, "Jane", "Doe", true}
 	} else {
 		newEmployee = employee{
 			faker.Number().NumberInt(3),
 			faker.Name().FirstName(),
 			faker.Name().LastName(),
+			helpers.RandomBool(),
 		}
 	}
 

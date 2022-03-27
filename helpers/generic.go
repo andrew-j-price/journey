@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"math/rand"
+	"net"
 	"os"
 	"reflect"
 	"strconv"
@@ -17,6 +18,30 @@ func GetEnv(key, fallback string) string {
 	return fallback
 }
 
+func GetLocalHostname() string {
+	name, err := os.Hostname()
+	if err != nil {
+		return ""
+	}
+	return name
+}
+
+func GetLocalIP() string {
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		return ""
+	}
+	for _, address := range addrs {
+		// check the address type and if it is not a loopback the display it
+		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				return ipnet.IP.String()
+			}
+		}
+	}
+	return ""
+}
+
 func IsStringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -24,6 +49,11 @@ func IsStringInSlice(a string, list []string) bool {
 		}
 	}
 	return false
+}
+
+func RandomBool() bool {
+	rand.Seed(time.Now().UnixNano())
+	return rand.Int()%2 == 0
 }
 
 func RandomNumberInRange(minNum int, maxNum int) int {

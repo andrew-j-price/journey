@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/google/uuid"
+
 	helper "github.com/andrew-j-price/journey/helpers"
 	"github.com/andrew-j-price/journey/logger"
 	"github.com/andrew-j-price/journey/random"
@@ -42,11 +44,11 @@ func handler404(w http.ResponseWriter, r *http.Request) {
 func handlerDefault(w http.ResponseWriter, r *http.Request) {
 	logger.Info.Printf("%v received %v call", r.URL.Path, r.Method)
 	message := map[string]interface{}{
-		"host_name":      "socket.gethostname()",
-		"host_ip":        "socket.gethostbyname(socket.gethostname())",
-		"server_address": "request.host",
+		"host_name":      helper.GetLocalHostname(),
+		"host_ip":        helper.GetLocalIP(),
+		"server_address": r.Host,
 		"uri":            r.URL.Path,
-		"uuid":           "uuid4()",
+		"uuid":           uuid.New(),
 		"date":           helper.TimeNow(),
 		"remote_agent":   r.UserAgent(),
 		"remote_ip":      r.RemoteAddr,

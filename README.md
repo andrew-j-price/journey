@@ -54,7 +54,9 @@ launch.json for debugger
             "console": "integratedTerminal",
             "program": "${workspaceFolder}/journey",
             "args": [
+                //"-api"
                 "-debug", "-math", "add", "5", "7"
+                //"-random"
             ],
             "env": {
                 "DEBUGGER": "True"
