@@ -206,14 +206,26 @@ func postAttestTodoStruct(task_msg string) {
 func AttestWithHelpers() {
 	// GET
 	fmt.Println("GETTING!!!!!")
-	data := helpers.RestGetUrl("http://attest.linecas.com/default")
+	data := helpers.RestGetUrl("http://attest.linecas.com/default", 200)
 	fmt.Println("GOT!!!!!")
 	fmt.Printf("host_name is: %v, uuid is: %v\n", data["host_name"], data["uuid"])
+	// Get Dogs
+	dogsResp := helpers.RestPerformGetUrl("http://attest.linecas.com/dogs")
+	dogsHeaders, dogErr := helpers.RestResponseGetHeader(dogsResp, "cssontent-type")
+	if dogErr != nil {
+		fmt.Printf("Dogs error: %v\n", dogErr)
+	} else {
+		fmt.Printf("Dogs header response: %v\n", dogsHeaders)
+	}
 	// POST
 	fmt.Println("POSTING!!!!!")
 	task_msg := faker.Hacker().SaySomethingSmart()
 	task_payload := map[string]interface{}{"task": task_msg}
-	helpers.RestPostUrl("http://attest.linecas.com/todos", task_payload)
+	dataPost := helpers.RestPostUrl("http://attest.linecas.com/todos", task_payload, 201)
+	if dataPost != nil {
+		fmt.Printf("Created ID: %v\n", dataPost["uid"])
+		fmt.Printf("Unknown key: %v\n", dataPost["fake"])
+	}
 }
 
 func AttestMain() {

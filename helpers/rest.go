@@ -3,9 +3,8 @@ package helpers
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/andrew-j-price/journey/logger"
@@ -14,10 +13,9 @@ import (
 func RestPerformGetUrl(url string) *http.Response {
 	resp, err := http.Get(url)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error.Println(err)
+		return nil
 	}
-	// defer resp.Body.Close()
-	logger.Info.Printf("Reponse %v with return code: %v\n", http.StatusText(resp.StatusCode), resp.StatusCode)
 	return resp
 }
 
@@ -30,22 +28,19 @@ func RestPerformPostUrl(url string, jsonData []byte) *http.Response {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		panic(err)
+		logger.Error.Println(err)
+		return nil
 	}
-	defer resp.Body.Close()
-
-	fmt.Println("Response Status:", resp.Status)
-	fmt.Println("Response Headers:", resp.Header)
-
-	body := RestHttpResponseToByte(resp)
-	fmt.Println("Response Body:", string(body))
+	// defer resp.Body.Close()
+	// resp.Body.Close()
 	return resp
 }
 
-func RestHttpResponseToByte(resp *http.Response) []byte {
+func RestResponseBody(resp *http.Response) []byte {
 	respData, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		log.Fatal(err)
+		logger.Error.Println(err)
+		return nil
 	}
 	// logger.Debug.Printf("respData: is of type: %v, with value: %v\n", reflect.TypeOf(respData), respData)
 	// NOTE: single line alternative
@@ -53,39 +48,76 @@ func RestHttpResponseToByte(resp *http.Response) []byte {
 	return respData
 }
 
-func RestJsonMarshalData(payload map[string]interface{}) []byte {
-	jsonData, err := json.Marshal(payload)
-	if err != nil {
-		panic(err)
+// Get specific Response Header
+func RestResponseGetHeader(resp *http.Response, name string) (string, error) {
+	value := resp.Header.Get(name)
+	logger.Debug.Printf("Value is %v\n", value)
+	if value == "" {
+		return "", errors.New("empty response")
+	} else {
+		return value, nil
 	}
-	return jsonData
 }
 
-func RestJsonUnmarshalData(respData []byte) map[string]interface{} {
-	var payload map[string]interface{}
-	err := json.Unmarshal([]byte(respData), &payload)
-	if err != nil {
-		panic(err)
+// Get HTTP response Status Code
+func RestResponseCodeAnalysis(resp *http.Response, expectedReturnCode int) bool {
+	if resp.StatusCode != expectedReturnCode {
+		logger.Error.Printf("Expected %v, received %v\n", expectedReturnCode, resp.StatusCode)
+		return false
+	} else {
+		return true
 	}
-	return payload
+}
+
+// Get HTTP response Status Code
+func RestResponseReturnCode(resp *http.Response) int {
+	return resp.StatusCode
+}
+
+func RestJsonMarshalData(payload map[string]interface{}) []byte {
+	data, err := json.Marshal(payload)
+	if err != nil {
+		logger.Error.Println(err)
+		return nil
+	}
+	return data
+}
+
+func RestJsonUnmarshalData(response []byte) map[string]interface{} {
+	var data map[string]interface{}
+	err := json.Unmarshal([]byte(response), &data)
+	if err != nil {
+		logger.Error.Println(err)
+		return nil
+	}
+	return data
 }
 
 // Takes URL and returns JSON
 // Params (string) of URL
+// Params (int) of expected HTTP Response Code
 // Returns (map[string]interface{}) of JSON response
-func RestGetUrl(url string) map[string]interface{} {
+func RestGetUrl(url string, expectedReturnCode int) map[string]interface{} {
 	logger.Info.Printf("Performing Get call to: %v\n", url)
 	resp := RestPerformGetUrl(url)
-	respData := RestHttpResponseToByte(resp)
-	payload := RestJsonUnmarshalData(respData)
-	return payload
+	if !RestResponseCodeAnalysis(resp, expectedReturnCode) {
+		return nil
+	} else {
+		respData := RestResponseBody(resp)
+		respPayload := RestJsonUnmarshalData(respData)
+		return respPayload
+	}
 }
 
-func RestPostUrl(url string, payload map[string]interface{}) map[string]interface{} {
+func RestPostUrl(url string, payload map[string]interface{}, expectedReturnCode int) map[string]interface{} {
 	logger.Info.Printf("Performing Post call to: %v with data: %v\n", url, payload)
 	jsonData := RestJsonMarshalData(payload)
 	resp := RestPerformPostUrl(url, jsonData)
-	respData := RestHttpResponseToByte(resp)
-	respPayload := RestJsonUnmarshalData(respData)
-	return respPayload
+	if !RestResponseCodeAnalysis(resp, expectedReturnCode) {
+		return nil
+	} else {
+		respData := RestResponseBody(resp)
+		respPayload := RestJsonUnmarshalData(respData)
+		return respPayload
+	}
 }
