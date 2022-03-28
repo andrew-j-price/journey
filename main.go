@@ -47,9 +47,10 @@ func main() {
 		// random.RandomLoopMain()
 		// random.RandomTypesAndKind()
 		// random.RandomLogMessages()
-		random.FakeDataMain(debugFlow)
+		// random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
-		random.AttestMain()
+		// random.AttestMain()
+		random.GithubGraphqlMain()
 		os.Exit(0)
 	}
 	if *useColor {

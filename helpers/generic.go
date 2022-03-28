@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"encoding/json"
 	"math/rand"
 	"net"
 	"os"
@@ -21,7 +22,7 @@ func GetEnv(key, fallback string) string {
 func GetLocalHostname() string {
 	name, err := os.Hostname()
 	if err != nil {
-		return ""
+		return "N/A"
 	}
 	return name
 }
@@ -49,6 +50,12 @@ func IsStringInSlice(a string, list []string) bool {
 		}
 	}
 	return false
+}
+
+// consume like: fmt.Println(helpers.PrettyPrintStruct(response))
+func PrettyPrintStruct(i interface{}) string {
+	s, _ := json.MarshalIndent(i, "", "\t")
+	return string(s)
 }
 
 func RandomBool() bool {

@@ -22,6 +22,9 @@ cli_random:
 test: unit_test
 
 unit_test:
+	go test ./... -v -cover
+
+unit_test_main:
 	go test -v -cover
 
 

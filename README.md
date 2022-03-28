@@ -12,8 +12,8 @@ mkdir -p ~/go
 
 # install - https://go.dev/doc/install
 cd ~/downloads
-wget https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz
 go version
 ```
 
