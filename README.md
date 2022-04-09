@@ -123,6 +123,6 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 * Nexus - [HTML](https://nexus.linecas.com/service/rest/repository/browse/docker/v2/journey/journey/) or [Manage](https://nexus.linecas.com/#browse/browse:docker)
 ```bash
 docker login images.linecas.com  # developer / ...
-docker pull images.linecas.com/journey/journey:pluralsight
+docker pull images.linecas.com/journey/journey:latest
 
 ```

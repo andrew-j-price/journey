@@ -74,7 +74,7 @@ func GithubGraphqlMain() {
 	fmt.Println("github")
 	token := helpers.GetEnv("GITHUB_TOKEN", "")
 	if token == "" {
-		logger.Fatal.Println("No GITHUB_TOKEN token")
+		logger.Fatal.Println("Environment variable GITHUB_TOKEN is missing or unset")
 		os.Exit(1)
 	}
 	url := "https://api.github.com/graphql"

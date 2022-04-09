@@ -63,7 +63,7 @@ func handlerDog(w http.ResponseWriter, r *http.Request) {
 	jsonResponse(w, 200, message)
 }
 
-// not using jsonResponse, but writing byte style.  Do this for example
+// not using jsonResponse, but writing byte style.  Doing this for example
 func handlerPing(w http.ResponseWriter, r *http.Request) {
 	logger.Info.Printf("%v received %v call", r.URL.Path, r.Method)
 	w.WriteHeader(http.StatusOK)
