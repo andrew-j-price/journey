@@ -120,6 +120,21 @@ api_stop_lsof:
 api_stop_fuser:
 	result=`fuser -k -n tcp 8080 || true`
 
+# identity
+identity: api_stop_fuser build identity_start
+
+identity_start:
+	bash -c "./drive -identity &" && \
+	echo ""
+
+identity_docker: identity_docker_build identity_docker_push
+
+identity_docker_build:
+	docker build -t andrewprice/identity:v1 . -f Dockerfile-identity
+
+identity_docker_push:
+	docker push andrewprice/identity:v1
+
 # cleanup items
 cleanup: delete_binaries delete_logs
 

@@ -5,6 +5,7 @@ import (
 	"math/rand"
 	"net"
 	"os"
+	"os/user"
 	"reflect"
 	"strconv"
 	"time"
@@ -41,6 +42,14 @@ func GetLocalIP() string {
 		}
 	}
 	return ""
+}
+
+func GetLocalUsername() string {
+	user, err := user.Current()
+	if err != nil {
+		return "N/A"
+	}
+	return user.Username
 }
 
 func IsStringInSlice(a string, list []string) bool {
