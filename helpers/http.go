@@ -32,14 +32,16 @@ func HttpJsonResponse(w http.ResponseWriter, r *http.Request, httpStatusCode int
 10.1.179.128 - - [09/Apr/2022:18:09:07 +0000] "GET /phpMyAdmin-4/index.php?lang=en HTTP/1.1" 200 206 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" "46.38.30.151"
 10.1.179.128 - - [09/Apr/2022:16:12:13 +0000] "GET /sql/phpmyadmin4/index.php?lang=en HTTP/1.1" 200 209 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" "153.131.28.205"
 192.168.86.6 - - [09/Apr/2022:15:35:50 +0000] "GET /.aws/credentials HTTP/1.1" 200 194 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36" "109.237.103.38"
+10.1.179.128 - - [10/Apr/2022:13:52:27 +0000] "GET / HTTP/1.1" 200 - http://www.google.com.hk "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36" "40.159.86.203"
 
-# Visualed by Logstash Grok patterns
+
+# Parsed by Logstash Grok patterns
 "%{IPORHOST:clientip} %{NGUSERNAME:ident} %{NGUSERNAME:auth} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:\"(?:%{URI:referrer}|-)\"|%{QS:referrer}) %{QS:agent} \"%{IPORHOST:http_x_forwarded_for}\""
-
+NGUSERNAME [a-zA-Z\.\@\-\+_%]+
 */
 func HttpLog(w http.ResponseWriter, r *http.Request, httpStatusCode int) {
 	// 	logger.Info.Printf("%v received %v call", r.URL.Path, r.Method)
-	fmt.Printf("%s - - [%s] \"%s %s %s\" %d - %s \"%s\" \"%s\"\n",
+	fmt.Printf("%s - - [%s] \"%s %s %s\" %d - %s %q %q\n",
 		HttpHelperRemovePort(r.RemoteAddr),
 		time.Now().Format("02/Jan/2006:15:04:05 -0700"),
 		r.Method,
@@ -84,9 +86,10 @@ func HttpHelperReturnClientIp(r *http.Request) string {
 func HttpHelperReturnReferer(r *http.Request) string {
 	headerReferer := r.Header.Get("Referer")
 	if headerReferer == "" {
-		return "\"-\""
+		// return "\"-\""
+		return fmt.Sprintf("%q", "-")
 	} else {
-		return fmt.Sprintf("%s", headerReferer)
+		return fmt.Sprintf("%q", headerReferer)
 	}
 }
 
@@ -110,7 +113,7 @@ func HttpRouteDefault(w http.ResponseWriter, r *http.Request) {
 	HttpJsonResponse(w, r, 200, message)
 }
 
-// not using jsonResponse, but writing byte style.  Doing this for example
+// not using jsonResponse, but writing byte style.  Doing this as an example
 func HttpRoutePing(w http.ResponseWriter, r *http.Request) {
 	HttpLog(w, r, 200)
 	w.WriteHeader(http.StatusOK)
