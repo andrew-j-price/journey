@@ -5,6 +5,7 @@ import (
 	"os"
 	"reflect"
 
+	helper "github.com/andrew-j-price/journey/helpers"
 	"github.com/andrew-j-price/journey/logger"
 )
 
@@ -35,7 +36,7 @@ func validateArgs(args []string) {
 		os.Exit(1)
 	}
 	valid_options := []string{"add", "subtract"}
-	valid := isStringInSlice(args[0], valid_options)
+	valid := helper.IsStringInSlice(args[0], valid_options)
 	if !valid {
 		logger.Debug.Printf("valid is: %v\n", valid)
 		logger.Error.Printf("Math operations must be one of %v\n", valid_options)
@@ -45,8 +46,8 @@ func validateArgs(args []string) {
 
 func mathMain(args []string) {
 	validateArgs(args)
-	int1 := StringToInt(args[1], true)
-	int2 := StringToInt(args[2], true)
+	int1 := helper.StringToInt(args[1], true)
+	int2 := helper.StringToInt(args[2], true)
 	var result int
 	if args[0] == "add" {
 		result = add(int1, int2)

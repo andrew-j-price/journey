@@ -16,13 +16,14 @@ import (
 var debugFlow bool
 
 func init() {
-	// SimpleLogger()  // references "keep" logging.go file
+	// SimpleLogger()  // references "./keep/logging.go.keep" file
 	logger.PackageLogger()
 }
 
 func main() {
-	enableDebug := flag.Bool("debug", false, "run debug commands")
+	enableDebug := flag.Bool("debug", false, "include debug output")
 	runApi := flag.Bool("api", false, "start api")
+	runIdentity := flag.Bool("identity", false, "start identity app")
 	runMath := flag.Bool("math", false, "drive -math add 5 7")
 	runRandom := flag.Bool("random", false, "just testing things")
 	useColor := flag.Bool("color", false, "display colorized output")
@@ -34,7 +35,11 @@ func main() {
 	}
 
 	if *runApi {
-		apiMainV1()
+		apiMain()
+		os.Exit(3)
+	}
+	if *runIdentity {
+		identityMain()
 		os.Exit(3)
 	}
 	if *runMath {
@@ -47,8 +52,10 @@ func main() {
 		// random.RandomLoopMain()
 		// random.RandomTypesAndKind()
 		// random.RandomLogMessages()
-		random.FakeDataMain(debugFlow)
+		// random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
+		// random.AttestMain()
+		random.GithubGraphqlMain()
 		os.Exit(0)
 	}
 	if *useColor {

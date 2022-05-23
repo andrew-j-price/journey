@@ -2,32 +2,34 @@ package random
 
 import (
 	"fmt"
-	"math/rand"
 	"reflect"
-	"time"
 
+	"github.com/andrew-j-price/journey/helpers"
 	"syreclabs.com/go/faker"
 )
 
 var debugFlow bool
 
+// NOTE: The json package can only serialize exported fields of your struct.
+// Therefore start all fields with an uppercase letter so they can be included in the output
 type employee struct {
-	personId  int
-	firstName string
-	lastName  string
+	ID        int
+	FirstName string
+	LastName  string
+	Active    bool
 }
 
 func FakeDataMain(enableDebug bool) {
 	debugFlow = enableDebug
 	// randomName()
-	// randomNumberInRange(1, 9)
+	// helpers.RandomNumberInRange(1, 9)
 	/*
 		result := staticEmployee()
 		fmt.Printf("result is: %v with firstName %v\n", result, result.firstName)
 		employeeStruct(false)
 		employeeStruct(true)
 	*/
-	employeeSliceOfStructs()
+	EmployeeSliceOfStructs()
 }
 
 func randomName() string {
@@ -36,33 +38,30 @@ func randomName() string {
 	return name
 }
 
-func randomNumberInRange(minNum int, maxNum int) int {
-	rand.Seed(time.Now().UnixNano())
-	num := rand.Intn(maxNum-minNum) + minNum
-	fmt.Printf("Random number: %v\n", num)
-	return num
-}
-
-func employeeSliceOfStructs() {
+func EmployeeSliceOfStructs() []*employee {
 	var allEmployees []*employee
-	numRange := randomNumberInRange(2, 10)
+	numRange := helpers.RandomNumberInRange(2, 10)
 	for i := 0; i < numRange; i++ {
 		// fmt.Println("index:", i)
 		randomEmployee := employeeStruct(false)
 		allEmployees = append(allEmployees, randomEmployee)
 	}
-	fmt.Printf("allEmployees: %v\n", allEmployees)
-	fmt.Printf("Index 0 Employee: %v with first name: %v\n", allEmployees[0], allEmployees[0].firstName)
+	// NOTE: old reference for print analysis
+	if false {
+		fmt.Printf("allEmployees: %v\n", allEmployees)
+		fmt.Printf("Index 0 Employee: %v with first name: %v\n", allEmployees[0], allEmployees[0].FirstName)
+	}
+	return allEmployees
 }
 
 func staticEmployee() *employee {
-	newEmployee := employee{123, "John", "Smith"}
+	newEmployee := employee{123, "John", "Smith", true}
 
 	fmt.Println("# staticEmployee")
 	fmt.Printf("The type is %v\n", reflect.TypeOf(newEmployee))
 	fmt.Printf("The kind is %v\n", reflect.TypeOf(newEmployee).Kind())
 	fmt.Printf("The value is %v\n", reflect.ValueOf(newEmployee))
-	fmt.Printf("The firstName is %v\n", newEmployee.firstName)
+	fmt.Printf("The firstName is %v\n", newEmployee.FirstName)
 	return &newEmployee
 }
 
@@ -70,12 +69,13 @@ func employeeStruct(static bool) *employee {
 	var newEmployee employee
 
 	if static {
-		newEmployee = employee{456, "Jane", "Doe"}
+		newEmployee = employee{456, "Jane", "Doe", true}
 	} else {
 		newEmployee = employee{
 			faker.Number().NumberInt(3),
 			faker.Name().FirstName(),
 			faker.Name().LastName(),
+			helpers.RandomBool(),
 		}
 	}
 
@@ -84,7 +84,7 @@ func employeeStruct(static bool) *employee {
 		fmt.Printf("The type is %v\n", reflect.TypeOf(newEmployee))
 		fmt.Printf("The kind is %v\n", reflect.TypeOf(newEmployee).Kind())
 		fmt.Printf("The value is %v\n", reflect.ValueOf(newEmployee))
-		fmt.Printf("The firstName is %v\n", newEmployee.firstName)
+		fmt.Printf("The firstName is %v\n", newEmployee.FirstName)
 	}
 	return &newEmployee
 }

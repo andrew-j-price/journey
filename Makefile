@@ -22,6 +22,9 @@ cli_random:
 test: unit_test
 
 unit_test:
+	go test ./... -v -cover
+
+unit_test_main:
 	go test -v -cover
 
 
@@ -33,10 +36,10 @@ go_doc_module:
 	go doc github.com/andrew-j-price/journey
 
 go_doc_module_stringtoint:
-	go doc github.com/andrew-j-price/journey.StringToInt
+	go doc github.com/andrew-j-price/journey/helpers.StringToInt
 
 go_doc_fuction_stringtoint:
-	go doc StringToInt
+	go doc helpers.StringToInt
 
 # https://pkg.go.dev/fmt#Printf
 go_doc_fmt_printf:
@@ -105,13 +108,32 @@ curl_hello:
 
 
 # prefer docker method over these api methods
+api: api_stop_fuser build api_start
+
 api_start:
 	bash -c "./drive -api &" && \
 	echo ""
 
-api_stop:
+api_stop_lsof:
 	kill `lsof -ti:8080`
 
+api_stop_fuser:
+	result=`fuser -k -n tcp 8080 || true`
+
+# identity
+identity: api_stop_fuser build identity_start
+
+identity_start:
+	bash -c "./drive -identity &" && \
+	echo ""
+
+identity_docker: identity_docker_build identity_docker_push
+
+identity_docker_build:
+	docker build -t andrewprice/identity:v1 . -f Dockerfile-identity
+
+identity_docker_push:
+	docker push andrewprice/identity:v1
 
 # cleanup items
 cleanup: delete_binaries delete_logs

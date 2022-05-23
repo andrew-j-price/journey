@@ -12,8 +12,8 @@ mkdir -p ~/go
 
 # install - https://go.dev/doc/install
 cd ~/downloads
-wget https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.17.3.linux-amd64.tar.gz
+wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz
 go version
 ```
 
@@ -44,6 +44,27 @@ settings.json
 }
 ```
 
+launch.json for debugger
+```json
+        {
+            "name": "go:journey",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "console": "integratedTerminal",
+            "program": "${workspaceFolder}/journey",
+            "args": [
+                //"-api"
+                "-debug", "-math", "add", "5", "7"
+                //"-random"
+            ],
+            "env": {
+                "DEBUGGER": "True"
+            },
+            "envFile": "${workspaceFolder}/.vscode/.env"
+        },
+```
+
 ## package management
 ```bash
 # Global
@@ -69,10 +90,13 @@ go get github.com/haya14busa/goplay/cmd/goplay
 ```bash
 # squash commits on feature branch
 git checkout feature_branch
-git reset --soft develop
+git reset --soft main
 
 # standard vscode workflow for add, commit, pull-push
 # on GitHub Pull Request set "Squash and merge" when accepting
+
+# tag
+git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```
 
 ## multi-arch
@@ -99,6 +123,6 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 * Nexus - [HTML](https://nexus.linecas.com/service/rest/repository/browse/docker/v2/journey/journey/) or [Manage](https://nexus.linecas.com/#browse/browse:docker)
 ```bash
 docker login images.linecas.com  # developer / ...
-docker pull images.linecas.com/journey/journey:pluralsight
+docker pull images.linecas.com/journey/journey:latest
 
 ```
