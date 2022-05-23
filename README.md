@@ -1,11 +1,13 @@
 # journey
 This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and Argo tools.
 * Some practices applied may not be ideal
+* Consumed by [companion](https://github.com/andrew-j-price/companion)
+* Package docs on [pkg.go.dev](https://pkg.go.dev/github.com/andrew-j-price/journey)
 
 
-## go install and clean
+## install golang
 ```bash
-# clean - commented out for manual protection
+# clean (if necessary) - commented out for manual protection
 # sudo rm -rf /usr/local/go/
 # sudo rm -rf ~/go/
 mkdir -p ~/go
@@ -125,4 +127,27 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 docker login images.linecas.com  # developer / ...
 docker pull images.linecas.com/journey/journey:latest
 
+```
+
+
+## doc update
+If [pkg.go.dev](https://pkg.go.dev/github.com/andrew-j-price/journey) is not updated, perform:  
+
+Example `curl` command with updated tag (should move to CI-CD)
+```
+$ curl https://sum.golang.org/lookup/github.com/andrew-j-price/journey@v0.2.0
+10680626
+github.com/andrew-j-price/journey v0.2.0 h1:z35bClodzfCsh2psGoTtNsb4oHbZcnzD4pzY8gk6lGk=
+github.com/andrew-j-price/journey v0.2.0/go.mod h1:ucycXl93RbqYoM3rGHjem1W0TDIYRLsU8prl9/zKx0g=
+
+go.sum database tree
+10680630
+k1UQFwFXWQa7MF1BREWVQxIhScvUdgRepXuyRS3sRuE=
+
+— sum.golang.org Az3grqgyWctiMcdUtITQpkGSxEoEvbaAq7J3FpbaVlW1Zo47LX/jmeeE7LiBktpmR2d/1RsdocLU9HMXYXxHCVyf/AQ=
+```
+
+From command line of [companion](https://github.com/andrew-j-price/companion) repo, run with updated tag (should also move to CI-CD):
+```
+go get -d github.com/andrew-j-price/journey@v0.2.0
 ```
