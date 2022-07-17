@@ -1,5 +1,5 @@
 # journey
-This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and Argo tools.
+This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and anything else that interests me.
 * Some practices applied may not be ideal
 * Consumed by [companion](https://github.com/andrew-j-price/companion)
 * Package docs on [pkg.go.dev](https://pkg.go.dev/github.com/andrew-j-price/journey)
