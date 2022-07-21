@@ -16,3 +16,7 @@ journey
 # Dependency directories (remove the comment below to include it)
 # vendor/
 log.txt
+
+# Additional
+*/node_modules/*
+scratch/*

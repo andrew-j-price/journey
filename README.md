@@ -120,6 +120,57 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 
 ```
 
+## grpc
+
+```bash
+# Install protoc binary
+sudo apt install protobuf-compiler
+protoc --version
+
+# Alternative to protoc (but currently consuming protoc method)
+# https://docs.buf.build/installation#binary / https://github.com/bufbuild/buf
+BIN="/usr/local/bin" && VERSION="1.6.0" && sudo curl -sSL "https://github.com/bufbuild/buf/releases/download/v${VERSION}/buf-$(uname -s)-$(uname -m)" -o "${BIN}/buf" && sudo chmod +x "${BIN}/buf"
+
+
+# Configure repo for grpc
+cd ~/code/journey
+go get google.golang.org/grpc
+go get google.golang.org/protobuf
+go get -d google.golang.org/protobuf/cmd/protoc-gen-go
+# go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+# Build protocol buffers
+cd ~/code/journey/
+export PATH=~/go/bin:$PATH
+
+# NOTE: need to analyze more, copied from Pluralsight output to work
+
+# build into same directory as definition
+protoc -I ./protos/messages \
+   --go_out ./protos/messages --go_opt paths=source_relative \
+   --go-grpc_out ./protos/messages --go-grpc_opt paths=source_relative \
+   ./protos/messages/messages.proto
+
+# build into specific folder
+protoc -I ./protos/messages \
+   --go_out ./messages --go_opt paths=source_relative \
+   --go-grpc_out ./messages --go-grpc_opt paths=source_relative \
+   ./protos/messages/messages.proto
+
+## grpc server (terminal 1)
+cd ~/code/journey/
+make build
+./drive -grpc
+
+## nodejs client (terminal 2)
+cd ~/code/journey/
+node nodejs/app.js 
+
+```
+
+
+
+
 
 ## nexus
 * Nexus - [HTML](https://nexus.linecas.com/service/rest/repository/browse/docker/v2/journey/journey/) or [Manage](https://nexus.linecas.com/#browse/browse:docker)
