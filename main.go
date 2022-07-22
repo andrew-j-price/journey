@@ -9,7 +9,8 @@ import (
 	"flag"
 	"os"
 
-	"github.com/andrew-j-price/journey/grpcserver"
+	"github.com/andrew-j-price/journey/greetings/greetclient"
+	"github.com/andrew-j-price/journey/greetings/greetserver"
 	"github.com/andrew-j-price/journey/logger"
 	"github.com/andrew-j-price/journey/random"
 )
@@ -24,6 +25,7 @@ func init() {
 func main() {
 	enableDebug := flag.Bool("debug", false, "include debug output")
 	runApi := flag.Bool("api", false, "start api")
+	runGreet := flag.Bool("greet", false, "start GRPC client")
 	runGrpc := flag.Bool("grpc", false, "start GRPC server")
 	runIdentity := flag.Bool("identity", false, "start identity app")
 	runMath := flag.Bool("math", false, "drive -math add 5 7")
@@ -40,8 +42,12 @@ func main() {
 		apiMain()
 		os.Exit(3)
 	}
+	if *runGreet {
+		greetclient.Main()
+		os.Exit(3)
+	}
 	if *runGrpc {
-		grpcserver.Main()
+		greetserver.Main()
 		os.Exit(3)
 	}
 	if *runIdentity {

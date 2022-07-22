@@ -142,29 +142,19 @@ go get -d google.golang.org/protobuf/cmd/protoc-gen-go
 # Build protocol buffers
 cd ~/code/journey/
 export PATH=~/go/bin:$PATH
-
-# NOTE: need to analyze more, copied from Pluralsight output to work
-
-# build into same directory as definition
-protoc -I ./protos/messages \
-   --go_out ./protos/messages --go_opt paths=source_relative \
-   --go-grpc_out ./protos/messages --go-grpc_opt paths=source_relative \
-   ./protos/messages/messages.proto
-
-# build into specific folder
-protoc -I ./protos/messages \
-   --go_out ./messages --go_opt paths=source_relative \
-   --go-grpc_out ./messages --go-grpc_opt paths=source_relative \
-   ./protos/messages/messages.proto
+protoc --go_out=. --go_opt=paths=source_relative \
+    --go-grpc_out=. --go-grpc_opt=paths=source_relative \
+    ./greetings/messages/messages.proto
 
 ## grpc server (terminal 1)
 cd ~/code/journey/
 make build
 ./drive -grpc
 
-## nodejs client (terminal 2)
+## grpc client (terminal 2)
 cd ~/code/journey/
-node nodejs/app.js 
+make build
+./drive -greet -name Drew
 
 ```
 
