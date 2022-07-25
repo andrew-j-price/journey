@@ -120,14 +120,14 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 
 ```
 
-## grpc
+## grpc (boondocks)
 
 ```bash
 # Install protoc binary
 sudo apt install protobuf-compiler
 protoc --version
 
-# Alternative to protoc (but currently consuming protoc method)
+# Alternative to protoc (need to evaluate further)
 # https://docs.buf.build/installation#binary / https://github.com/bufbuild/buf
 BIN="/usr/local/bin" && VERSION="1.6.0" && sudo curl -sSL "https://github.com/bufbuild/buf/releases/download/v${VERSION}/buf-$(uname -s)-$(uname -m)" -o "${BIN}/buf" && sudo chmod +x "${BIN}/buf"
 
@@ -144,17 +144,17 @@ cd ~/code/journey/
 export PATH=~/go/bin:$PATH
 protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    ./greetings/messages/messages.proto
+    ./boondocks/messages/messages.proto
 
 ## grpc server (terminal 1)
 cd ~/code/journey/
 make build
-./drive -grpc
+./drive -boondocks-server
 
 ## grpc client (terminal 2)
 cd ~/code/journey/
 make build
-./drive -greet -name Drew
+./drive -boondocks-client -boondocks-name Drew
 
 ```
 
