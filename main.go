@@ -12,7 +12,6 @@ import (
 	"github.com/andrew-j-price/journey/boondocks/boonclient"
 	"github.com/andrew-j-price/journey/boondocks/boonserver"
 	"github.com/andrew-j-price/journey/logger"
-	"github.com/andrew-j-price/journey/random"
 	"github.com/andrew-j-price/journey/rps"
 )
 
@@ -31,7 +30,6 @@ func main() {
 	runIdentity := flag.Bool("identity", false, "start identity app")
 	runMath := flag.Bool("math", false, "drive -math add 5 7")
 	runRandom := flag.Bool("random", false, "just testing things")
-	runRps := flag.Bool("rps", false, "Game of RPS")
 	useColor := flag.Bool("color", false, "display colorized output")
 	flag.Parse()
 
@@ -69,12 +67,9 @@ func main() {
 		// random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
 		// random.AttestMain()
-		random.GithubGraphqlMain()
+		// random.GithubGraphqlMain()
+		rps.LocalTesting()
 		os.Exit(0)
-	}
-	if *runRps {
-		rps.Main()
-		os.Exit(3)
 	}
 	if *useColor {
 		colorize(ColorYellow, "Hello world!")

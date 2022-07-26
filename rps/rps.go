@@ -1,19 +1,25 @@
 package rps
 
 import (
-	"fmt"
-	"log"
 	"math/rand"
 	"time"
+
+	"github.com/andrew-j-price/journey/logger"
 )
 
-var choices [3]string = [3]string{"rock", "paper", "scissors"}
+func init() {
+	// logger.Info.Printf("rps package initialized") // CAUSES: panic: runtime error: invalid memory address or nil pointer dereference
+	// log.Printf("rps package initialized")
+	rand.Seed(time.Now().UnixNano())
+}
 
 type TheScore struct {
 	UserWins int
 	CompWins int
 	Draws    int
 }
+
+var choices [3]string = [3]string{"rock", "paper", "scissors"}
 
 func RandomChoice() string {
 	/* // NOTE: Longer way
@@ -25,21 +31,21 @@ func RandomChoice() string {
 }
 
 func PlayGame(score *TheScore, player_choice string, computer_choice string) {
-	// fmt.Printf("User plays: %v, Computer plays: %v\n", player_choice, computer_choice)
+	// logger.Info.Printf("User plays: %v, Computer plays: %v\n", player_choice, computer_choice)
 	if player_choice == computer_choice {
-		fmt.Printf("Draw.  Both threw: %v\n", player_choice)
+		logger.Info.Printf("Draw... Both threw: %v\n", player_choice)
 		score.Draws++
 	} else if player_choice == "rock" && computer_choice == "scissors" {
-		fmt.Printf("Player wins!  User played: %v, Computer played: %v\n", player_choice, computer_choice)
+		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
 	} else if player_choice == "scissors" && computer_choice == "paper" {
-		fmt.Printf("Player wins!  User played: %v, Computer played: %v\n", player_choice, computer_choice)
+		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
 	} else if player_choice == "paper" && computer_choice == "rock" {
-		fmt.Printf("Player wins!  User played: %v, Computer played: %v\n", player_choice, computer_choice)
+		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
 	} else {
-		fmt.Printf("Computer wins :(  User played: %v, Computer played: %v\n", player_choice, computer_choice)
+		logger.Info.Printf("Computer won :( User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.CompWins++
 	}
 }
@@ -48,23 +54,17 @@ func playRandomGame(score *TheScore) {
 	PlayGame(score, RandomChoice(), RandomChoice())
 }
 
-func init() {
-	log.Printf("rps package initialized")
-	rand.Seed(time.Now().UnixNano())
-}
-
-func Main() {
+func LocalTesting() {
 	gameScore := TheScore{UserWins: 0, CompWins: 0, Draws: 0}
-	fmt.Printf("Score: %v\n", gameScore)
-	fmt.Printf("Choices: %v\n", choices)
-	fmt.Printf("Choice: %v\n", RandomChoice())
-	fmt.Printf("Choice: %v\n", RandomChoice())
-	fmt.Printf("Choice: %v\n", RandomChoice())
+	logger.Info.Printf("Score: %v\n", gameScore)
+	logger.Info.Printf("Choices: %v\n", choices)
+	logger.Info.Printf("Choice: %v\n", RandomChoice())
+	logger.Info.Printf("Choice: %v\n", RandomChoice())
+	logger.Info.Printf("Choice: %v\n", RandomChoice())
 	playRandomGame(&gameScore)
 	playRandomGame(&gameScore)
 	playRandomGame(&gameScore)
 	playRandomGame(&gameScore)
 	playRandomGame(&gameScore)
-	fmt.Printf("Score: %v\n", gameScore)
-
+	logger.Info.Printf("Score: %v\n", gameScore)
 }
