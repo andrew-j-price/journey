@@ -4,6 +4,11 @@ option go_package = "github.com/andrew-j-price/journey/boondocks/messages";
 
 package messages;
 
+service BoonService {
+  rpc PerformHelloWorld (HelloRequest) returns (HelloResponse) {}
+  rpc PlayRps (RpsChoice) returns (RpsScore) {}
+}
+
 message HelloRequest {
   string name = 1;
 }
@@ -12,6 +17,20 @@ message HelloResponse {
   string message = 1;
 }
 
-service BoonService {
-  rpc PerformHelloWorld (HelloRequest) returns (HelloResponse) {}
+message RpsChoice {
+  string throw = 1;
+}
+
+message RpsChoice2 {
+  enum Play {
+    ROCK = 0;
+    PAPER = 1;
+    SCISSORS = 2;
+  }
+}
+
+message RpsScore {
+  string userWins = 1;
+  string compWins = 2;
+  string draws = 3;
 }

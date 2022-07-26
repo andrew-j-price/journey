@@ -137,7 +137,9 @@ cd ~/code/journey
 go get google.golang.org/grpc
 go get google.golang.org/protobuf
 go get -d google.golang.org/protobuf/cmd/protoc-gen-go
-# go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
+go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
+go get google.golang.org/protobuf/cmd/protoc-gen-go
+go mod tidy
 
 # Build protocol buffers
 cd ~/code/journey/

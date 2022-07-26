@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BoonServiceClient interface {
 	PerformHelloWorld(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error)
+	PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsScore, error)
 }
 
 type boonServiceClient struct {
@@ -42,11 +43,21 @@ func (c *boonServiceClient) PerformHelloWorld(ctx context.Context, in *HelloRequ
 	return out, nil
 }
 
+func (c *boonServiceClient) PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsScore, error) {
+	out := new(RpsScore)
+	err := c.cc.Invoke(ctx, "/messages.BoonService/PlayRps", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BoonServiceServer is the server API for BoonService service.
 // All implementations must embed UnimplementedBoonServiceServer
 // for forward compatibility
 type BoonServiceServer interface {
 	PerformHelloWorld(context.Context, *HelloRequest) (*HelloResponse, error)
+	PlayRps(context.Context, *RpsChoice) (*RpsScore, error)
 	mustEmbedUnimplementedBoonServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedBoonServiceServer struct {
 
 func (UnimplementedBoonServiceServer) PerformHelloWorld(context.Context, *HelloRequest) (*HelloResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PerformHelloWorld not implemented")
+}
+func (UnimplementedBoonServiceServer) PlayRps(context.Context, *RpsChoice) (*RpsScore, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlayRps not implemented")
 }
 func (UnimplementedBoonServiceServer) mustEmbedUnimplementedBoonServiceServer() {}
 
@@ -88,6 +102,24 @@ func _BoonService_PerformHelloWorld_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BoonService_PlayRps_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RpsChoice)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BoonServiceServer).PlayRps(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/messages.BoonService/PlayRps",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BoonServiceServer).PlayRps(ctx, req.(*RpsChoice))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // BoonService_ServiceDesc is the grpc.ServiceDesc for BoonService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var BoonService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "PerformHelloWorld",
 			Handler:    _BoonService_PerformHelloWorld_Handler,
+		},
+		{
+			MethodName: "PlayRps",
+			Handler:    _BoonService_PlayRps_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

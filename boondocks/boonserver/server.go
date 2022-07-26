@@ -5,9 +5,13 @@ import (
 	"flag"
 	"fmt"
 	"log"
+	"math/rand"
 	"net"
+	"strconv"
+	"time"
 
 	pb "github.com/andrew-j-price/journey/boondocks/messages"
+	"github.com/andrew-j-price/journey/rps"
 	"google.golang.org/grpc"
 )
 
@@ -20,8 +24,19 @@ type server struct {
 }
 
 func (s *server) PerformHelloWorld(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
-	log.Printf("Received: %v", in.GetName())
+	log.Printf("PerformHelloWorld - received: %v", in.GetName())
 	return &pb.HelloResponse{Message: "Hello " + in.GetName()}, nil
+}
+
+func (s *server) PlayRps(ctx context.Context, in *pb.RpsChoice) (*pb.RpsScore, error) {
+	log.Printf("PlayRps - received: %v", in.Throw)
+	gameScore := new(rps.TheScore)
+	rps.PlayGame(gameScore, in.Throw, rps.RandomChoice())
+	return &pb.RpsScore{UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
+}
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
 }
 
 func Main() {
