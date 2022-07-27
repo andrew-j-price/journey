@@ -9,6 +9,8 @@ import (
 	"flag"
 	"os"
 
+	"github.com/andrew-j-price/journey/boondocks/boonclient"
+	"github.com/andrew-j-price/journey/boondocks/boonserver"
 	"github.com/andrew-j-price/journey/logger"
 	"github.com/andrew-j-price/journey/random"
 )
@@ -23,6 +25,8 @@ func init() {
 func main() {
 	enableDebug := flag.Bool("debug", false, "include debug output")
 	runApi := flag.Bool("api", false, "start api")
+	runGrpcClient := flag.Bool("boondocks-client", false, "start GRPC client")
+	runGrpcServer := flag.Bool("boondocks-server", false, "start GRPC server")
 	runIdentity := flag.Bool("identity", false, "start identity app")
 	runMath := flag.Bool("math", false, "drive -math add 5 7")
 	runRandom := flag.Bool("random", false, "just testing things")
@@ -36,6 +40,14 @@ func main() {
 
 	if *runApi {
 		apiMain()
+		os.Exit(3)
+	}
+	if *runGrpcClient {
+		boonclient.Main()
+		os.Exit(3)
+	}
+	if *runGrpcServer {
+		boonserver.Main()
 		os.Exit(3)
 	}
 	if *runIdentity {
@@ -52,10 +64,11 @@ func main() {
 		// random.RandomLoopMain()
 		// random.RandomTypesAndKind()
 		// random.RandomLogMessages()
-		// random.FakeDataMain(debugFlow)
+		random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
 		// random.AttestMain()
-		random.GithubGraphqlMain()
+		// random.GithubGraphqlMain()
+		// rps.LocalTesting()
 		os.Exit(0)
 	}
 	if *useColor {

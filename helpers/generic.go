@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"encoding/json"
+	"flag"
 	"math/rand"
 	"net"
 	"os"
@@ -12,6 +13,10 @@ import (
 
 	"github.com/andrew-j-price/journey/logger"
 )
+
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
 
 func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
@@ -52,6 +57,17 @@ func GetLocalUsername() string {
 	return user.Username
 }
 
+// https://stackoverflow.com/a/54747682/17207113
+func IsFlagPassed(name string) bool {
+	found := false
+	flag.Visit(func(f *flag.Flag) {
+		if f.Name == name {
+			found = true
+		}
+	})
+	return found
+}
+
 func IsStringInSlice(a string, list []string) bool {
 	for _, b := range list {
 		if b == a {
@@ -68,12 +84,10 @@ func PrettyPrintStruct(i interface{}) string {
 }
 
 func RandomBool() bool {
-	rand.Seed(time.Now().UnixNano())
 	return rand.Int()%2 == 0
 }
 
 func RandomNumberInRange(minNum int, maxNum int) int {
-	rand.Seed(time.Now().UnixNano())
 	num := rand.Intn(maxNum-minNum) + minNum
 	// fmt.Printf("Random number: %v\n", num)
 	return num
