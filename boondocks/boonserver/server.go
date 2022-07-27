@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"log"
 	"math/rand"
 	"net"
 	"strconv"
@@ -30,10 +29,10 @@ func (s *server) PerformHelloWorld(ctx context.Context, in *pb.HelloRequest) (*p
 	return &pb.HelloResponse{Message: "Hello " + in.GetName()}, nil
 }
 
-func (s *server) PlayRps(ctx context.Context, client *pb.RpsChoice) (*pb.RpsScore, error) {
+func (s *server) PlayRps(ctx context.Context, client *pb.RpsChoice) (*pb.RpsResponse, error) {
 	logger.Info.Printf("PlayRps - received: %v", client.Throw)
 	result := rps.PlayGame(gameScore, client.Throw, rps.RandomChoice())
-	return &pb.RpsScore{GameResult: result, UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
+	return &pb.RpsResponse{GameResult: result, UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
 }
 
 func init() {
@@ -44,12 +43,12 @@ func Main() {
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
-		log.Fatalf("Failure listening on: %v", err)
+		logger.Fatal.Fatalf("Failure listening on: %v", err)
 	}
 	s := grpc.NewServer()
 	pb.RegisterBoonServiceServer(s, &server{})
 	logger.Info.Printf("Listening on: %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
-		log.Fatalf("Failure serving: %v", err)
+		logger.Fatal.Fatalf("Failure serving: %v", err)
 	}
 }

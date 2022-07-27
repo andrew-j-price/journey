@@ -3,7 +3,6 @@ package boonclient
 import (
 	"context"
 	"flag"
-	"log"
 	"time"
 
 	pb "github.com/andrew-j-price/journey/boondocks/messages"
@@ -20,7 +19,7 @@ const (
 
 var (
 	addr = flag.String("boondocks-addr", "localhost:4444", "gRPC address to connect to")
-	name = flag.String("boondocks-name", defaultName, "gRPC Name to use")
+	name = flag.String("boondocks-name", defaultName, "Hello World name to use")
 )
 
 func init() {
@@ -32,7 +31,7 @@ func Main() {
 	// Set up a connection to the server.
 	conn, err := grpc.Dial(*addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
-		log.Fatalf("Failure connecting to: %v", err)
+		logger.Fatal.Fatalf("Failure connecting to: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewBoonServiceClient(conn)
@@ -45,7 +44,7 @@ func Main() {
 	if helpers.IsFlagPassed("boondocks-name") {
 		r, err := c.PerformHelloWorld(ctx, &pb.HelloRequest{Name: *name})
 		if err != nil {
-			log.Fatalf("Error on PerformHelloWorld: %v", err)
+			logger.Fatal.Fatalf("Error on PerformHelloWorld: %v", err)
 		}
 		logger.Info.Printf("HelloWorld Result: %s", r.GetMessage())
 	}
@@ -64,7 +63,7 @@ func Main() {
 		logger.Info.Printf("Tossing: %s", toss)
 		rps, err := c.PlayRps(ctx, &pb.RpsChoice{Throw: toss})
 		if err != nil {
-			log.Fatalf("Error on PlayRps: %v", err)
+			logger.Fatal.Fatalf("Error on PlayRps: %v", err)
 		}
 		// NOTE: use either output method below
 		// logger.Info.Printf("Results: %s", rps)

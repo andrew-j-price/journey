@@ -39,6 +39,8 @@ func HttpJsonResponse(w http.ResponseWriter, r *http.Request, httpStatusCode int
 "%{IPORHOST:clientip} %{NGUSERNAME:ident} %{NGUSERNAME:auth} \[%{HTTPDATE:timestamp}\] \"%{WORD:verb} %{URIPATHPARAM:request} HTTP/%{NUMBER:httpversion}\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) (?:\"(?:%{URI:referrer}|-)\"|%{QS:referrer}) %{QS:agent} \"%{IPORHOST:http_x_forwarded_for}\""
 NGUSERNAME [a-zA-Z\.\@\-\+_%]+
 */
+
+// Mimic NGINX Log Format
 func HttpLog(w http.ResponseWriter, r *http.Request, httpStatusCode int) {
 	// 	logger.Info.Printf("%v received %v call", r.URL.Path, r.Method)
 	fmt.Printf("%s - - [%s] \"%s %s %s\" %d - %s %q %q\n",

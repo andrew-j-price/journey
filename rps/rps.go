@@ -31,8 +31,8 @@ func RandomChoice() string {
 }
 
 func PlayGame(score *TheScore, player_choice string, computer_choice string) string {
-	// logger.Info.Printf("User plays: %v, Computer plays: %v\n", player_choice, computer_choice)
-	response := []string{"draw", "user_win", "comp_win"}
+	// logger.Debug.Printf("User plays: %v, Computer plays: %v\n", player_choice, computer_choice)
+	response := []string{"draw", "userWin", "compWin"}
 	if player_choice == computer_choice {
 		logger.Info.Printf("Draw... Both threw: %v\n", player_choice)
 		score.Draws++

@@ -6,7 +6,7 @@ package messages;
 
 service BoonService {
   rpc PerformHelloWorld (HelloRequest) returns (HelloResponse) {}
-  rpc PlayRps (RpsChoice) returns (RpsScore) {}
+  rpc PlayRps (RpsChoice) returns (RpsResponse) {}
 }
 
 message HelloRequest {
@@ -29,7 +29,7 @@ message RpsChoice2 {
   }
 }
 
-message RpsScore {
+message RpsResponse {
   string gameResult = 1;
   string userWins = 2;
   string compWins = 3;

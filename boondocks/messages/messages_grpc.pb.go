@@ -23,7 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type BoonServiceClient interface {
 	PerformHelloWorld(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error)
-	PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsScore, error)
+	PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsResponse, error)
 }
 
 type boonServiceClient struct {
@@ -43,8 +43,8 @@ func (c *boonServiceClient) PerformHelloWorld(ctx context.Context, in *HelloRequ
 	return out, nil
 }
 
-func (c *boonServiceClient) PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsScore, error) {
-	out := new(RpsScore)
+func (c *boonServiceClient) PlayRps(ctx context.Context, in *RpsChoice, opts ...grpc.CallOption) (*RpsResponse, error) {
+	out := new(RpsResponse)
 	err := c.cc.Invoke(ctx, "/messages.BoonService/PlayRps", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func (c *boonServiceClient) PlayRps(ctx context.Context, in *RpsChoice, opts ...
 // for forward compatibility
 type BoonServiceServer interface {
 	PerformHelloWorld(context.Context, *HelloRequest) (*HelloResponse, error)
-	PlayRps(context.Context, *RpsChoice) (*RpsScore, error)
+	PlayRps(context.Context, *RpsChoice) (*RpsResponse, error)
 	mustEmbedUnimplementedBoonServiceServer()
 }
 
@@ -68,7 +68,7 @@ type UnimplementedBoonServiceServer struct {
 func (UnimplementedBoonServiceServer) PerformHelloWorld(context.Context, *HelloRequest) (*HelloResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PerformHelloWorld not implemented")
 }
-func (UnimplementedBoonServiceServer) PlayRps(context.Context, *RpsChoice) (*RpsScore, error) {
+func (UnimplementedBoonServiceServer) PlayRps(context.Context, *RpsChoice) (*RpsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlayRps not implemented")
 }
 func (UnimplementedBoonServiceServer) mustEmbedUnimplementedBoonServiceServer() {}

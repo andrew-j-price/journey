@@ -159,11 +159,9 @@ make build
 ./drive -boondocks-client -boondocks-rps
 ./drive -boondocks-client -boondocks-name Drew
 ./drive -boondocks-client -boondocks-rps -boondocks-name Drew
+watch ./drive -boondocks-client -boondocks-rps
 
 ```
-
-
-
 
 
 ## nexus
