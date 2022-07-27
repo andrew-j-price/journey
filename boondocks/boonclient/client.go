@@ -7,6 +7,8 @@ import (
 	"time"
 
 	pb "github.com/andrew-j-price/journey/boondocks/messages"
+	"github.com/andrew-j-price/journey/helpers"
+	"github.com/andrew-j-price/journey/logger"
 	"github.com/andrew-j-price/journey/rps"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -21,6 +23,10 @@ var (
 	name = flag.String("boondocks-name", defaultName, "gRPC Name to use")
 )
 
+func init() {
+	flag.Bool("boondocks-rps", false, "Play a game of rock-paper-scissors")
+}
+
 func Main() {
 	flag.Parse()
 	// Set up a connection to the server.
@@ -34,25 +40,34 @@ func Main() {
 	// Contact the server and print out its response.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	r, err := c.PerformHelloWorld(ctx, &pb.HelloRequest{Name: *name})
-	if err != nil {
-		log.Fatalf("Error on PerformHelloWorld: %v", err)
-	}
-	log.Printf("Hi there: %s", r.GetMessage())
 
-	/* // TODO: evaluate enum from protobuf
-	throw := "SCISSORS"
-	value, ok := pb.RpsChoice2_Play_value[throw]
-	if !ok {
-		panic("invalid enum value")
+	// gRPC - Hello World function
+	if helpers.IsFlagPassed("boondocks-name") {
+		r, err := c.PerformHelloWorld(ctx, &pb.HelloRequest{Name: *name})
+		if err != nil {
+			log.Fatalf("Error on PerformHelloWorld: %v", err)
+		}
+		logger.Info.Printf("HelloWorld Result: %s", r.GetMessage())
 	}
-	fmt.Printf("value: is of type: %v, with value: %v\n", reflect.TypeOf(value), value)
-	*/
-	toss := rps.RandomChoice()
-	rps, err := c.PlayRps(ctx, &pb.RpsChoice{Throw: toss})
-	if err != nil {
-		log.Fatalf("Error on PlayRps: %v", err)
-	}
-	log.Printf("RPS Results: %s", rps)
 
+	// gRPC - Play Rock, Paper, Scissors
+	if helpers.IsFlagPassed("boondocks-rps") {
+		/* // TODO: evaluate enum from protobuf
+		throw := "SCISSORS"
+		value, ok := pb.RpsChoice2_Play_value[throw]
+		if !ok {
+			panic("invalid enum value")
+		}
+		fmt.Printf("value: is of type: %v, with value: %v\n", reflect.TypeOf(value), value)
+		*/
+		toss := rps.RandomChoice()
+		logger.Info.Printf("Tossing: %s", toss)
+		rps, err := c.PlayRps(ctx, &pb.RpsChoice{Throw: toss})
+		if err != nil {
+			log.Fatalf("Error on PlayRps: %v", err)
+		}
+		// NOTE: use either output method below
+		// logger.Info.Printf("Results: %s", rps)
+		logger.Info.Printf("Results: %s", helpers.PrettyPrintStruct(rps))
+	}
 }

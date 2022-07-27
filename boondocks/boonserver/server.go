@@ -32,8 +32,8 @@ func (s *server) PerformHelloWorld(ctx context.Context, in *pb.HelloRequest) (*p
 
 func (s *server) PlayRps(ctx context.Context, client *pb.RpsChoice) (*pb.RpsScore, error) {
 	logger.Info.Printf("PlayRps - received: %v", client.Throw)
-	rps.PlayGame(gameScore, client.Throw, rps.RandomChoice())
-	return &pb.RpsScore{UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
+	result := rps.PlayGame(gameScore, client.Throw, rps.RandomChoice())
+	return &pb.RpsScore{GameResult: result, UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
 }
 
 func init() {

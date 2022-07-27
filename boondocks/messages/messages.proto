@@ -30,7 +30,8 @@ message RpsChoice2 {
 }
 
 message RpsScore {
-  string userWins = 1;
-  string compWins = 2;
-  string draws = 3;
+  string gameResult = 1;
+  string userWins = 2;
+  string compWins = 3;
+  string draws = 4;
 }

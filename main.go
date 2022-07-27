@@ -12,7 +12,7 @@ import (
 	"github.com/andrew-j-price/journey/boondocks/boonclient"
 	"github.com/andrew-j-price/journey/boondocks/boonserver"
 	"github.com/andrew-j-price/journey/logger"
-	"github.com/andrew-j-price/journey/rps"
+	"github.com/andrew-j-price/journey/random"
 )
 
 var debugFlow bool
@@ -64,11 +64,11 @@ func main() {
 		// random.RandomLoopMain()
 		// random.RandomTypesAndKind()
 		// random.RandomLogMessages()
-		// random.FakeDataMain(debugFlow)
+		random.FakeDataMain(debugFlow)
 		// random.JsonDataMain()
 		// random.AttestMain()
 		// random.GithubGraphqlMain()
-		rps.LocalTesting()
+		// rps.LocalTesting()
 		os.Exit(0)
 	}
 	if *useColor {

@@ -19,7 +19,7 @@ type TheScore struct {
 	Draws    int
 }
 
-var choices [3]string = [3]string{"rock", "paper", "scissors"}
+var choices = []string{"rock", "paper", "scissors"}
 
 func RandomChoice() string {
 	/* // NOTE: Longer way
@@ -30,23 +30,29 @@ func RandomChoice() string {
 	return choices[rand.Intn(len(choices))]
 }
 
-func PlayGame(score *TheScore, player_choice string, computer_choice string) {
+func PlayGame(score *TheScore, player_choice string, computer_choice string) string {
 	// logger.Info.Printf("User plays: %v, Computer plays: %v\n", player_choice, computer_choice)
+	response := []string{"draw", "user_win", "comp_win"}
 	if player_choice == computer_choice {
 		logger.Info.Printf("Draw... Both threw: %v\n", player_choice)
 		score.Draws++
+		return response[0]
 	} else if player_choice == "rock" && computer_choice == "scissors" {
 		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
+		return response[1]
 	} else if player_choice == "scissors" && computer_choice == "paper" {
 		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
+		return response[1]
 	} else if player_choice == "paper" && computer_choice == "rock" {
 		logger.Info.Printf("Player wins! User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.UserWins++
+		return response[1]
 	} else {
 		logger.Info.Printf("Computer won :( User played: %v, Computer played: %v\n", player_choice, computer_choice)
 		score.CompWins++
+		return response[2]
 	}
 }
 

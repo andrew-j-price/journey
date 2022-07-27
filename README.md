@@ -156,7 +156,9 @@ make build
 ## grpc client (terminal 2)
 cd ~/code/journey/
 make build
+./drive -boondocks-client -boondocks-rps
 ./drive -boondocks-client -boondocks-name Drew
+./drive -boondocks-client -boondocks-rps -boondocks-name Drew
 
 ```
 
