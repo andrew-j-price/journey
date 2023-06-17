@@ -13,9 +13,13 @@ This is an my educational `journey` repo to `drive` (binary built) my learnings 
 mkdir -p ~/go
 
 # install - https://go.dev/doc/install
+mkdir ~/downloads
 cd ~/downloads
-wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
-sudo tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz
+VERSION=1.20.5
+wget https://go.dev/dl/go${VERSION}.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go${VERSION}.linux-amd64.tar.gz
+
+export PATH=$PATH:/usr/local/go/bin
 go version
 ```
 
@@ -132,6 +136,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t andrewprice/journey . 
 ```bash
 # Install protoc binary
 sudo apt install protobuf-compiler
+sudo apt install golang-goprotobuf-dev
 protoc --version
 
 # Alternative to protoc (need to evaluate further)
@@ -141,11 +146,11 @@ BIN="/usr/local/bin" && VERSION="1.6.0" && sudo curl -sSL "https://github.com/bu
 
 # Configure repo for grpc
 cd ~/code/journey
-go get google.golang.org/grpc
-go get google.golang.org/protobuf
-go get -d google.golang.org/protobuf/cmd/protoc-gen-go
-go get google.golang.org/grpc/cmd/protoc-gen-go-grpc
-go get google.golang.org/protobuf/cmd/protoc-gen-go
+go install google.golang.org/grpc
+go install google.golang.org/protobuf
+go install google.golang.org/protobuf/cmd/protoc-gen-go
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+ls -la ~/go/bin/
 go mod tidy
 
 # Build protocol buffers

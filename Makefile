@@ -67,20 +67,20 @@ docker: docker_build docker_compose_build docker_compose_logs
 down: docker_stop docker_compose_down
 
 docker_compose_build:
-	docker-compose build && \
-	docker-compose --profile core up -d
+	docker compose build && \
+	docker compose --profile core up -d
 
 docker_compose_logs:
-	docker-compose logs -f drive
+	docker compose logs -f drive
 
 docker_compose_exec:
-	docker-compose exec drive sh
+	docker compose exec drive sh
 
 docker_compose_exec_scratch:
-	docker-compose exec drive ./drive -debug -color
+	docker compose exec drive ./drive -debug -color
 
 docker_compose_down:
-	docker-compose down --remove-orphans
+	docker compose down --remove-orphans
 
 docker_build:
 	docker build -t journey .
