@@ -1,11 +1,10 @@
-name: goreleaser
+name: go:releaser
 
 on:
   pull_request:
   push:
     branches:
     - main
-    - pluralsight
     tags:
     - '*'
 
