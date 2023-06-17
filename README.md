@@ -97,6 +97,13 @@ git reset --soft main
 # standard vscode workflow for add, commit, pull-push
 # on GitHub Pull Request set "Squash and merge" when accepting
 
+# Releasing from `main` branch
+# navigate to https://github.com/andrew-j-price/journey/releases/new
+# create semantic tag starting with `v` like: vX.Y.Z
+# do not give the release a name, it will simply be the tag version then
+# click "Generate release notes"
+# click "Publish release"
+
 # tag
 git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```
@@ -175,7 +182,11 @@ docker pull images.linecas.com/journey/journey:latest
 
 ## doc update
 If [pkg.go.dev](https://pkg.go.dev/github.com/andrew-j-price/journey) is not updated, perform:  
+### UI method
+If a new package was added like [fake-package](https://pkg.go.dev/github.com/andrew-j-price/journey/fake)
+* Simply navigate to the URL and click: Request “github.com/andrew-j-price/journey/fake”
 
+### manual method
 Example `curl` command with updated tag (should move to CI-CD)
 ```
 $ curl https://sum.golang.org/lookup/github.com/andrew-j-price/journey@v0.2.0
