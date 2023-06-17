@@ -1,4 +1,4 @@
-FROM golang:1.17-alpine AS go_builder
+FROM golang:1.20-alpine AS go_builder
 WORKDIR /app
 ADD . /app/
 # RUN go mod tidy
