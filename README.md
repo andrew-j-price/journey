@@ -112,6 +112,29 @@ git reset --soft main
 git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```
 
+## goreleaser manual
+```bash
+# install
+go install github.com/goreleaser/goreleaser@latest
+
+# run
+goreleaser init
+goreleaser release --snapshot --clean
+goreleaser check
+
+# release
+source ~/code/.vscode/.env   # equals: export GITHUB_TOKEN="YOUR_GH_TOKEN"
+git tag -a v0.4.1
+git push origin v0.4.1
+goreleaser release
+
+
+# NOTE: if during CI problem, can re-tag as necessary
+# git tag -d v0.0.0
+# git push origin :refs/tags/v0.0.0
+# git fetch --tags
+```
+
 ## multi-arch
 * DockerHub - [Consume](https://hub.docker.com/r/andrewprice/journey/tags) or [Manage](https://hub.docker.com/repository/docker/andrewprice/journey/tags)
 * NOTE: if not pushing, build result will only remain in the build cache

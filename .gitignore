@@ -20,3 +20,4 @@ log.txt
 # Additional
 */node_modules/*
 scratch/*
+dist/
