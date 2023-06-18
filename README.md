@@ -118,20 +118,22 @@ git tag  # to list tags, otherwise generating tags via releases in GitHub
 go install github.com/goreleaser/goreleaser@latest
 
 # run
-goreleaser init
+goreleaser init    # initially populates .goreleaser.yaml
+goreleaser check   # checks file .goreleaser.yaml
 goreleaser release --snapshot --clean
-goreleaser check
+goreleaser build   --single-target  # local-development testing
 
 # release
 source ~/code/.vscode/.env   # equals: export GITHUB_TOKEN="YOUR_GH_TOKEN"
-git tag -a v0.4.1
-git push origin v0.4.1
+TAG=v0.0.0
+git tag -a $TAG -m "$TAG"
+git push origin $TAG
 goreleaser release
 
-
 # NOTE: if during CI problem, can re-tag as necessary
-# git tag -d v0.0.0
-# git push origin :refs/tags/v0.0.0
+git tag -l
+# git tag -d $TAG
+# git push origin :refs/tags/$TAG
 # git fetch --tags
 ```
 
