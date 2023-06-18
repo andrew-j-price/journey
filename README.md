@@ -113,6 +113,8 @@ git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```
 
 ## goreleaser manual
+* NOTE: intended for usage if GitHub Action job fails.
+* NOTE: does not cover items such as Docker image build, push.
 ```bash
 # install
 go install github.com/goreleaser/goreleaser@latest
@@ -126,15 +128,16 @@ goreleaser build   --single-target  # local-development testing
 # release
 source ~/code/.vscode/.env   # equals: export GITHUB_TOKEN="YOUR_GH_TOKEN"
 TAG=v0.0.0
+echo $TAG
 git tag -a $TAG -m "$TAG"
 git push origin $TAG
-goreleaser release
+goreleaser release --clean
 
 # NOTE: if during CI problem, can re-tag as necessary
+git fetch --tags
 git tag -l
 # git tag -d $TAG
 # git push origin :refs/tags/$TAG
-# git fetch --tags
 ```
 
 ## multi-arch
