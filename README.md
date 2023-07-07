@@ -186,7 +186,7 @@ cd ~/code/journey/
 export PATH=~/go/bin:$PATH
 protoc --go_out=. --go_opt=paths=source_relative \
     --go-grpc_out=. --go-grpc_opt=paths=source_relative \
-    ./boondocks/messages/messages.proto
+    ./pkg/boondocks/messages/messages.proto
 
 ## grpc server (terminal 1)
 cd ~/code/journey/

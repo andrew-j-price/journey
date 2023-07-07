@@ -36,7 +36,7 @@ go_doc_module:
 	go doc github.com/andrew-j-price/journey
 
 go_doc_module_stringtoint:
-	go doc github.com/andrew-j-price/journey/helpers.StringToInt
+	go doc github.com/andrew-j-price/journey/pkg/helpers.StringToInt
 
 go_doc_fuction_stringtoint:
 	go doc helpers.StringToInt
