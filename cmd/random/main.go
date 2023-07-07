@@ -1,8 +1,3 @@
-/*
-Package: journey
-
-This is an my educational `journey` repo to `drive` my learnings on Golang
-*/
 package main
 
 import (
@@ -16,8 +11,7 @@ import (
 var debugFlow bool
 
 func init() {
-	// SimpleLogger()  // references "./keep/logging.go.keep" file
-	logger.PackageLogger()
+	logger.Logger()
 }
 
 func main() {

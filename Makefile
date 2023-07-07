@@ -1,21 +1,30 @@
 SHELL := /bin/bash
 
-run: build cli_color cli_add cli_random
+run: build cmd_color cmd_math
 
 build:
-	CGO_ENABLED=0 go build -o drive
+	CGO_ENABLED=0 go build -v ./...
 
-cli:
-	./drive
+cmd_api:
+	go run ./cmd/api
 
-cli_color:
-	./drive -debug -color
+cmd_boondocks_client:
+	go run ./cmd/boondocks -client -rps -name drew
 
-cli_add:
-	./drive -math add 5 7
+cmd_boondocks_server:
+	go run ./cmd/boondocks -server
 
-cli_random:
-	./drive -random
+cmd_color:
+	go run ./cmd/hello_colors
+
+cmd_indentity:
+	go run ./cmd/identity
+
+cmd_math:
+	go run ./cmd/math add 5 7
+
+cmd_random:
+	go run ./cmd/random -debug
 
 
 # testing
@@ -24,9 +33,8 @@ test: unit_test
 unit_test:
 	go test ./... -v -cover
 
-unit_test_main:
-	go test -v -cover
-
+unit_test_math:
+	go test -v ./pkg/math -cover
 
 # documentation (only pascal case items are documented)
 go_doc_all:
@@ -51,10 +59,10 @@ go_doc_net_http_handler:
 
 # run without building
 go_run_dir:
-	go run . -debug
+	go run ./cmd/hello_colors -debug
 
 go_run_module:
-	go run github.com/andrew-j-price/journey -debug
+	go run github.com/andrew-j-price/journey/cmd/hello_colors -debug
 
 
 # NOTE: analyze golangci-lint
@@ -76,8 +84,8 @@ docker_compose_logs:
 docker_compose_exec:
 	docker compose exec drive sh
 
-docker_compose_exec_scratch:
-	docker compose exec drive ./drive -debug -color
+docker_compose_exec_colors:
+	docker compose exec drive /journey/bin/hello_colors
 
 docker_compose_down:
 	docker compose down --remove-orphans
@@ -108,10 +116,13 @@ curl_hello:
 
 
 # prefer docker method over these api methods
-api: api_stop_fuser build api_start
+api: api_stop_fuser api_build api_start
+
+api_build:
+	go build -o ./bin/api ./cmd/api
 
 api_start:
-	bash -c "./drive -api &" && \
+	bash -c "./bin/api &" && \
 	echo ""
 
 api_stop_lsof:
@@ -121,10 +132,13 @@ api_stop_fuser:
 	result=`fuser -k -n tcp 8080 || true`
 
 # identity
-identity: api_stop_fuser build identity_start
+identity: api_stop_fuser identity_build identity_start
+
+identity_build:
+	go build -o ./bin/identity ./cmd/identity
 
 identity_start:
-	bash -c "./drive -identity &" && \
+	bash -c "./bin/identity &" && \
 	echo ""
 
 identity_docker: identity_docker_build identity_docker_push

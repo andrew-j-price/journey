@@ -14,7 +14,7 @@ var (
 	Fatal *log.Logger
 )
 
-func PackageLogger() {
+func Logger() {
 	logFile, err := os.OpenFile("log.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0666)
 	if err != nil {
 		/*

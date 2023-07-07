@@ -1,11 +1,11 @@
 # https://hub.docker.com/r/andrewprice/identity/tags
-FROM golang:1.20-alpine AS go_builder
+FROM --platform=linux/amd64 golang:1.20-alpine AS go_builder
 WORKDIR /app
-ADD . /app/
+COPY . .
 # RUN go mod tidy
-RUN CGO_ENABLED=0 go build -o drive
+RUN CGO_ENABLED=0 go build -o ./bin/identity ./cmd/identity
 
-FROM scratch
+FROM --platform=linux/amd64 scratch
 WORKDIR /app
-COPY --from=go_builder /app/drive .
-CMD ["./drive", "-identity"]
+COPY --from=go_builder /app/bin/identity .
+CMD ["./identity"]
