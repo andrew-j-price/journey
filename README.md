@@ -1,5 +1,5 @@
 # journey
-This is an my educational `journey` repo to `drive` (binary built) my learnings on Golang, GitHub Actions, and anything else that interests me.
+This is an my educational `journey` repo to `drive` (original binary built) my learnings on Golang, GitHub Actions, and anything else that interests me.
 * Some practices applied may not be ideal
 * Consumed by [companion](https://github.com/andrew-j-price/companion)
 * Package docs on [pkg.go.dev](https://pkg.go.dev/github.com/andrew-j-price/journey)
@@ -122,7 +122,6 @@ export PATH=~/go/bin:$PATH
 goreleaser init    # initially populates .goreleaser.yaml
 goreleaser check   # checks file .goreleaser.yaml
 goreleaser release --snapshot --clean
-goreleaser build   --single-target  # local-development testing
 
 # release
 source ~/code/.vscode/.env   # equals: export GITHUB_TOKEN="YOUR_GH_TOKEN"
@@ -189,16 +188,17 @@ protoc --go_out=. --go_opt=paths=source_relative \
 
 ## grpc server (terminal 1)
 cd ~/code/journey/
-make build
-./drive -boondocks-server
+make cmd_boondocks_server
 
 ## grpc client (terminal 2)
 cd ~/code/journey/
-make build
-./drive -boondocks-client -boondocks-rps
-./drive -boondocks-client -boondocks-name Drew
-./drive -boondocks-client -boondocks-rps -boondocks-name Drew
-watch ./drive -boondocks-client -boondocks-rps
+make cmd_boondocks_client
+
+## or sample individual commands
+go run ./cmd/boondocks -client -rps
+go run ./cmd/boondocks -client -name drew
+go run ./cmd/boondocks -client -rps -name drew
+watch go run ./cmd/boondocks -client -rps
 
 ```
 
@@ -206,7 +206,7 @@ watch ./drive -boondocks-client -boondocks-rps
 ## nexus
 * Nexus - [HTML](https://nexus.linecas.com/service/rest/repository/browse/docker/v2/journey/journey/) or [Manage](https://nexus.linecas.com/#browse/browse:docker)
 ```bash
-docker login images.linecas.com  # developer / ...
+docker login images.linecas.com
 docker pull images.linecas.com/journey/journey:latest
 
 ```
