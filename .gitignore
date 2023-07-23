@@ -21,3 +21,5 @@ log.txt
 */node_modules/*
 scratch/*
 dist/
+bin/*
+!bin/.gitkeep
