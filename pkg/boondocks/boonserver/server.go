@@ -4,7 +4,6 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"log"
 	"math/rand"
 	"net"
 	"strconv"
@@ -44,8 +43,7 @@ func Main() {
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
-		// logger.Fatal.Fatalf("Failure listening on: %v", err)
-		log.Fatalf("Failure listening on: %v", err)
+		logger.Fatal.Fatalf("Failure listening on: %v", err)
 	}
 	s := grpc.NewServer()
 	pb.RegisterBoonServiceServer(s, &server{})
