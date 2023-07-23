@@ -53,16 +53,14 @@ settings.json
 launch.json for debugger
 ```json
         {
-            "name": "go:journey",
+            "name": "go:journey:math",
             "type": "go",
             "request": "launch",
             "mode": "auto",
             "console": "integratedTerminal",
-            "program": "${workspaceFolder}/journey",
+            "program": "${workspaceFolder}/journey/cmd/math",
             "args": [
-                //"-api"
-                "-debug", "-math", "add", "5", "7"
-                //"-random"
+                "-debug", "add", "5", "7"
             ],
             "env": {
                 "DEBUGGER": "True"

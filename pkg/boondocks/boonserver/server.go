@@ -11,6 +11,7 @@ import (
 	"time"
 
 	pb "github.com/andrew-j-price/journey/pkg/boondocks/messages"
+	"github.com/andrew-j-price/journey/pkg/logger"
 	"github.com/andrew-j-price/journey/pkg/rps"
 	"google.golang.org/grpc"
 )
@@ -25,14 +26,12 @@ type server struct {
 }
 
 func (s *server) PerformHelloWorld(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
-	// logger.Info.Printf("PerformHelloWorld - received: %v", in.GetName())
-	log.Printf("PerformHelloWorld - received: %v", in.GetName())
+	logger.Info.Printf("PerformHelloWorld - received: %v", in.GetName())
 	return &pb.HelloResponse{Message: "Hello " + in.GetName()}, nil
 }
 
 func (s *server) PlayRps(ctx context.Context, client *pb.RpsChoice) (*pb.RpsResponse, error) {
-	// logger.Info.Printf("PlayRps - received: %v", client.Throw)
-	log.Printf("PlayRps - received: %v", client.Throw)
+	logger.Info.Printf("PlayRps - received: %v", client.Throw)
 	result := rps.PlayGame(gameScore, client.Throw, rps.RandomChoice())
 	return &pb.RpsResponse{GameResult: result, UserWins: strconv.Itoa(gameScore.UserWins), CompWins: strconv.Itoa(gameScore.CompWins), Draws: strconv.Itoa(gameScore.Draws)}, nil
 }
@@ -50,10 +49,8 @@ func Main() {
 	}
 	s := grpc.NewServer()
 	pb.RegisterBoonServiceServer(s, &server{})
-	// logger.Info.Printf("Listening on: %v", lis.Addr())
-	log.Printf("Listening on: %v", lis.Addr())
+	logger.Info.Printf("Listening on: %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
-		// logger.Fatal.Fatalf("Failure serving: %v", err)
-		log.Fatalf("Failure serving: %v", err)
+		logger.Fatal.Fatalf("Failure serving: %v", err)
 	}
 }

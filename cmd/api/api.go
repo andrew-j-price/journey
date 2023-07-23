@@ -10,16 +10,15 @@ import (
 )
 
 func main() {
+	logger.Logger()
 	listen_address := helper.GetEnv("LISTEN_ADDRESS", ":8080")
-	// logger.Info.Printf("Startup binding to %s\n", listen_address)
-	log.Printf("Startup binding to %s\n", listen_address)
+	logger.Info.Printf("Startup binding to %s\n", listen_address)
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", handlerRoot)
 	mux.HandleFunc("/dogs", routeDog)
 	mux.HandleFunc("/employees", routeEmployees)
 	mux.HandleFunc("/ping", helper.HttpRoutePing)
-	// logger.Info.Printf("Web server starting\n")
-	log.Printf("Web server starting\n")
+	logger.Info.Printf("Web server starting\n")
 	log.Fatal(http.ListenAndServe(listen_address, mux))
 }
 
