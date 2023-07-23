@@ -116,6 +116,7 @@ git tag  # to list tags, otherwise generating tags via releases in GitHub
 ```bash
 # install
 go install github.com/goreleaser/goreleaser@latest
+export PATH=~/go/bin:$PATH
 
 # run
 goreleaser init    # initially populates .goreleaser.yaml
